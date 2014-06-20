@@ -8,6 +8,7 @@ script:
   - "hexo generate"
 after_success:
   - "git config --global push.default simple"
+  - "git config --global user.name 'qianlifeng'"
   - "git clone $REPO git_deploy"
   - "cp -r public git_deploy"
   - "cd git_deploy"
