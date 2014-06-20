@@ -7,11 +7,10 @@ node_js:
 script:
   - "hexo generate"
 after_success:
+  - "git config --global push.default simple"
+  - "git remote rm origin"
+  - "git remote add origin $REPO"
   - "hexo deploy"
-  - "chmod 600 .travis/deploy_key.pem"
-  - "ssh-add .travis/deploy_key.pem"
-  - "git remote add deploy $REPO"
-  - "git push deploy"
 env:
   global:
     secure: NZFi1MbGx0uHlaCbk5lD03JdgQjuJQXIKqAlsgz1YXdGa4Jw30GlW1gFGqar8CVftFvAYZl0WOTPbHiIi34TB1/RDknuKm4eTYO+ZJ/mRSYcdxpPMhT26y35ygwTggRu+1SsPByQOpF2uz5SMzMef+BdHomSbUV4h9JkCpCvyJY=
