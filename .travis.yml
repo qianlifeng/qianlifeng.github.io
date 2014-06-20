@@ -15,7 +15,7 @@ after_success:
   - "cd git_deploy"
   - "git add -A"
   - "git commit -m 'update'"
-  - "git push"
+  - "git push -q"
 env:
   global:
     secure: lUMj3nQDaKePP0T376kn6ZvoOM5X6EGihBPi2V1dKDffTVj4Oa5lrKNKQT2BhoioxPcCfJxic74+Y2Or+7J0SwahlWtBDWbGw67TNcbw+PDAAq/7STxbbzJosMKQ2Vgn1jy9SOebbrRZKcEVPV4CHxyxWu3Wbeu5j0q4paqSvE8=
