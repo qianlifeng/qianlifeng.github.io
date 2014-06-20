@@ -1,3 +1,4 @@
 .deploy/
 public/
 db.json
+node_modules/
