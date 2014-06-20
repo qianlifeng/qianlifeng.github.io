@@ -1,7 +1,21 @@
+branches:
+  only:
+    - source
 language: node_js
 node_js:
   - "0.10"
 script:
   - "hexo generate"
 after_success:
-  - "hexo deploy"
+  - "git config --global push.default simple"
+  - "git config --global user.name 'qianlifeng'"
+  - "git clone $REPO git_deploy"
+  - "rm -r git_deploy/*"
+  - "cp -r public/* git_deploy"
+  - "cd git_deploy"
+  - "git add -A"
+  - "git commit -m 'update'"
+  - "git push -q"
+env:
+  global:
+    secure: lUMj3nQDaKePP0T376kn6ZvoOM5X6EGihBPi2V1dKDffTVj4Oa5lrKNKQT2BhoioxPcCfJxic74+Y2Or+7J0SwahlWtBDWbGw67TNcbw+PDAAq/7STxbbzJosMKQ2Vgn1jy9SOebbrRZKcEVPV4CHxyxWu3Wbeu5j0q4paqSvE8=
