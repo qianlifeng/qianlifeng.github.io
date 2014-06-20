@@ -8,10 +8,10 @@ script:
   - "hexo generate"
 after_success:
   - "git config --global push.default simple"
-  - "git remote rm origin"
-  - "git remote add origin $REPO"
-  - "ls -l"
+  - "git clone https://qianlifeng:$PWD@github.com/qianlifeng/qianlifeng.github.io.git git_deploy"
+  - "cp -r publish git_deploy"
+  - "cd git_deploy"
   - "git push"
 env:
   global:
-    secure: NZFi1MbGx0uHlaCbk5lD03JdgQjuJQXIKqAlsgz1YXdGa4Jw30GlW1gFGqar8CVftFvAYZl0WOTPbHiIi34TB1/RDknuKm4eTYO+ZJ/mRSYcdxpPMhT26y35ygwTggRu+1SsPByQOpF2uz5SMzMef+BdHomSbUV4h9JkCpCvyJY=
+    secure: EORKzoK8q9bDx7R9oxUnJeXPYmopPvh5OJig1+JuCFMNOyRCBeh5wY4lnEegq3C3uLiUmR/o5w0oEIJ1NvijBwhzyd2d5eJVpT4yP/KOX+eY7laLnr1rJaKmFUFPhK8qEOldK5l4j5XjLyUzEhiFkmhROGJSoS+LgywRxekgOmo=
