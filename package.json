@@ -1,0 +1,8 @@
+{
+  "name": "qianlifeng_blog",
+  "version": "2.3.0",
+  "private": true,
+  "dependencies": {
+    "hexo":"2.7.1"
+  }
+}
