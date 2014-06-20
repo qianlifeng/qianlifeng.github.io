@@ -4,18 +4,11 @@ branches:
 language: node_js
 node_js:
   - "0.10"
-before_script: 
-  # Set read-write git origin
-  - git remote set-url origin $REPO.git
-  # Unpack ssh key for git
-  - echo -n $id_rsa_{00..30} >> ~/.ssh/id_rsa_base64
-  - base64 --decode --ignore-garbage ~/.ssh/id_rsa_base64 > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
-  # Disable SSH server fingerprint verification
-  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  # Set deployment target to github pages
-  - rake setup_github_pages[$REPO]
 script:
   - "hexo generate"
 after_success:
   - "hexo deploy"
+  - "chmod 600 .travis/deploy_key.pem"
+  - "ssh-add .travis/deploy_key.pem"
+  - "git remote add deploy $REPO"
+  - "git push deploy"
