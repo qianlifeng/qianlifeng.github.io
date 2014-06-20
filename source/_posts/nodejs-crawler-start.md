@@ -28,5 +28,5 @@ request("http://news.dbanotes.net/", function (error, response, body) {
 });
 ```
 
-从这个小例子来看还是蛮简单的噢，执行结果：
+从这个小例子来看还是蛮简单的噢，执行结果如下：
 <img src="/Images/nodejs-crawler-photo/result.png" />
