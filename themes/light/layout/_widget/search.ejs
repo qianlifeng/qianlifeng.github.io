@@ -1,6 +1,21 @@
 <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
+  <!--<form action="//google.com/search" method="get" accept-charset="utf-8">
     <input type="search" name="q" results="0" placeholder="<%= __('search') %>">
     <input type="hidden" name="q" value="site:<%- config.url.replace(/^https?:\/\//, '') %>">
-  </form>
+  </form>-->
+  <form>
+  <input type="text" id="st-search-input" class="st-search-input" />
+</form>
+<script type="text/javascript">
+var Swiftype = window.Swiftype || {};
+  (function() {
+    Swiftype.key = 'zbGssRPxsooDxs2V6jML';
+
+    /** DO NOT EDIT BELOW THIS LINE **/
+    var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+    script.src = "//s.swiftypecdn.com/embed.js";
+    var entry = document.getElementsByTagName('script')[0];
+    entry.parentNode.insertBefore(script, entry);
+  }());
+</script>
 </div>
