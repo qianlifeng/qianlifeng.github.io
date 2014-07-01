@@ -3,7 +3,7 @@
 ## Source: https://github.com/tommy351/hexo/
 
 # Site
-title: 高兴了就写一点
+title: 猫猫二次元
 subtitle:
 description: 
 author: qianlifeng
@@ -76,10 +76,3 @@ disqus_shortname: scottqian
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
 theme: light
 exclude_generator:
-
-# Deployment
-## Docs: http://zespia.tw/hexo/docs/deploy.html
-deploy:
-  type: github
-  repository: https://github.com/qianlifeng/qianlifeng.github.io.git
-  branch: master
