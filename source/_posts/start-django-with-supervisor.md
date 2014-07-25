@@ -1,4 +1,11 @@
+title: 使用Supervisor管理程序
+category: linux
+date: 2014-07-25 18:27:17
+tags: [supervisor]
+---
 
+人生苦短，我用Supervisor
+<!--more-->
 
 首先通过如下命令安装supervisor`sudo apt-get install supervisor`  
 
