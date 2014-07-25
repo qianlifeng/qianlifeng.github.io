@@ -1,5 +1,5 @@
 title: 使用Supervisor管理程序
-category: linux
+category: Linux
 date: 2014-07-25 18:27:17
 tags: [supervisor]
 ---
@@ -26,7 +26,7 @@ redirect_stderr = true
 
 
 Supervisor还提供了web界面管理进程。  
-可以再`/etc/supervisor/config.conf`里面进行配置：  
+可以在`/etc/supervisor/config.conf`里面进行配置：  
 ```
 [inet_http_server]
 port = 127.0.0.1:8011
