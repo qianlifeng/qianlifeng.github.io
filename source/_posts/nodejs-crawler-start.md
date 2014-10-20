@@ -10,7 +10,7 @@ date: 2014-03-03 21:04:17
 首先下载Nodejs什么的就不说了，直接下一步。Nodejs的包管理工具NPM也会同时被安装。这点做得比python好，装个pip还要自己动手。话说c#也有个nuget，好像包管理必不可少啊现在。安装好之后，使用npm安装如下两个依赖库：
 ```
 npm install request
-npm install cherrio
+npm install cheerio
 ```
 **注意，安装的时候一定要先将命令行跳到你项目文件所在的目录**，然后进行安装。否则安装之后会出现request找不到的错误。其中request是用来请求数据的，cherrio是用jquery的语法来解析html的，对于熟悉jquery的童鞋来说十分方便。
 上代码:
