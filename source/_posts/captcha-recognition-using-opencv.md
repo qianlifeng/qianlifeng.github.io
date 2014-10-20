@@ -9,7 +9,7 @@ tags: [验证码,OpenCV]
 
 从头开始学习计算机视觉需要很强的数学功底，从图像预处理到图像匹配都需要用到数学知识，这对于我们这种初学者来说绝对是道很大很大很大很大.....很大的门槛（原谅我对数学敬畏!_!）。不过，不要灰心，我们还有神器[OpenCV](http://opencv.org/)。OpenCV是一套开源的计算机视觉库，他封装了许多计算机视觉处理中常用的方法。在我们这边文章中，我们主要用到了他的阈值处理，轮廓查找，KNN分类器等等。  
 
-先看看成品：
+先看成品：
 [http://nbviewer.ipython.org/gist/qianlifeng/95023d6c8ce8b28518b8](http://nbviewer.ipython.org/gist/qianlifeng/95023d6c8ce8b28518b8)  
 我摘一些主要的代码片段介绍一下：  
 
