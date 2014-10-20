@@ -49,7 +49,8 @@ env:
   
   注意其中的`$GH_TOKEN`，它是我们[Github application token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)，避免我们直接将github密码暴露在外面用。具体怎么生成这个token，可以参考[此文章)](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)。另外你需要将上面的REPO换成自己刚刚新建的即可。  
   
-
+* ##使用[prose.io](http://prose.io/)在线写作  
+除了在github page中编辑文章，我推荐使用[prose.io](http://prose.io/)这个网站。此网站可以集成读取github里面的markdown文件，然后编辑同步，效果不错。
 
 好了，一切就绪了，可以专心写文章了。:)
 
