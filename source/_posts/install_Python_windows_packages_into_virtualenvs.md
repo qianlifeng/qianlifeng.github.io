@@ -1,4 +1,4 @@
-title: 安装python可执行文件到virtualenv
+title: 安装python三方包到virtualenv
 category: Python
 date: 2014-10-20 20:53:17
 ---
