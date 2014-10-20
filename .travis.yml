@@ -7,7 +7,7 @@ node_js:
 script:
   - "hexo generate"
 after_success:
-  - "git clone $REPO git_deploy"
+  - "git clone https://$GH_TOKEN@github.com/qianlifeng/qianlifeng.github.io.git git_deploy"
   - "rm -r git_deploy/*"
   - "cp -r public/* git_deploy"
   - "cd git_deploy"
@@ -19,4 +19,4 @@ after_success:
   - "git push -q"
 env:
   global:
-    secure: lUMj3nQDaKePP0T376kn6ZvoOM5X6EGihBPi2V1dKDffTVj4Oa5lrKNKQT2BhoioxPcCfJxic74+Y2Or+7J0SwahlWtBDWbGw67TNcbw+PDAAq/7STxbbzJosMKQ2Vgn1jy9SOebbrRZKcEVPV4CHxyxWu3Wbeu5j0q4paqSvE8=
+    secure: R47+1xIT3fihAM4YTO5u/AOFrpZeYndHLTBIMU49DGST6MO65+Ppyj/VHHUsJhmDXa7w83krUfhaR+BMQ1ntd3bOZQTnUyzHspKpum9XSRldoTx8FJNJgfuoKqglS25Qi8kmP9WA6IKwycYyY+6Xg1L2YfHvUbRHcfQlfayQFJ0=
