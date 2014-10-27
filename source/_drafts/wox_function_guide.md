@@ -11,6 +11,7 @@ Tag: [Wox]
 #基本使用
 -----------------------------
 
+
 <br/>
 #系统插件
 ----------------------------------
@@ -94,4 +95,13 @@ Tag: [Wox]
   
   ![http://api.drp.io/files/544a2d1e2758a.png](http://api.drp.io/files/544a2d1e2758a.png)  
   
-  菜单项提供了一些你可能要对此文件/命令进行的操作，比如使用管理员权限打开此文件或者打开文件所在目录等等。目前，菜单项只能由插件制作者添加，因为对于一个搜索项，它需要有哪些菜单，插件制作者应该最清楚。
+  菜单项提供了一些你可能要对此文件/命令进行的操作，比如使用管理员权限打开此文件或者打开文件所在目录等等。目前，菜单项只能由插件制作者添加，因为对于一个搜索项，它需要有哪些菜单，插件制作者应该最清楚。  
+  
+<br/>
+#相关链接
+-------------------------------------
+官网：[http://www.getwox.com](http://www.getwox.com)  
+Github：[http://www.github.com/qianlifeng/wox](http://www.github.com/qianlifeng/wox)  
+异次元介绍：[http://www.iplaysoft.com/wox.html](http://www.iplaysoft.com/wox.html)  
+小众软件介绍：[http://www.appinn.com/wox-launcher/](http://www.appinn.com/wox-launcher/)  
+  
