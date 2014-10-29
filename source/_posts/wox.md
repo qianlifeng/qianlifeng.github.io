@@ -1,6 +1,6 @@
-title: Wox功能手册（中文版）
+title: 快速启动器Wox
 category: CSharp
-date: 2014-08-10 22:53:17
+date: 2014-10-29 18:53:17
 Tag: [Wox]
 ---
 
