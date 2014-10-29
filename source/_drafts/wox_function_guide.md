@@ -8,13 +8,26 @@ Tag: [Wox]
 <!--more-->
 本来想一口气直接用英文憋到Github Page上去的，想想还是先用中文酝酿一下，到时候再直接翻译过去吧。  
 
-#基本使用
+#Wox的前世今生
 -----------------------------
+其实在正式写Wox之前，我就一直想写一款快速启动工具。因为自己本身快捷键用的很多，特别是用了Vim之后。自带的`Win + R`感觉不能搜索程序，比较鸡肋。这中间也使用过[Launchy](http://www.launchy.net/)，但是总感觉好久不维护的样子，后面慢慢也放弃掉了。大概2011年的时候也用C语言做过一些这方面的尝试，[fstart](https://code.google.com/p/fstart/) 和 [smartrun](https://code.google.com/p/smartrun/)。但是不知道是程序功底不够呢，还是C++实在太烂，最后也丢弃掉了。然后大概是2013年的11月份知道了Mac有个[Alfred](http://www.alfredapp.com/)，惊为神器，网上也是好评如潮。可惜windows下面没有这玩意儿:(  
+
+于是，自然而然的就萌生了一些Windows下面的类似Alfred的软件，连名字一开始都是取得WinAlfred。开始写的时候在V2ex上发了[帖子](http://v2ex.com/t/93922)，得到了一些人的肯定，后来也渐渐有一些人参与到这个项目当中来。中间被Alfred发来的邮件警告说不能用包含Alfred的名字，因为那是他们的商标。最终，在v2ex上让大家起了个名字，就是现在的Wox啦。
 
 
 <br/>
+#介绍
+-----------------------------
+Wox是一款启动器。用于快速搜索本机安装的各种程序，文件。也可以通过插件快速搜索网络内容，比如今天天气如何，某某电影的评分是多少等等。  
+
+Wox是开源的，开源地址：[http://www.github.com/qianlifeng/wox](http://www.github.com/qianlifeng/wox)，欢迎Pull Request或者任何的Issue。
+
+<br/>
 #系统插件
-----------------------------------
+----------------------------------  
+Wox的插件体系分为两个方面，系统插件和第三方插件。系统插件一般不需要关键字触发（Web Search插件除外），而第三方插件都需要一个关键字触发。例如，我想使用[有道翻译](https://github.com/qianlifeng/Wox.Plugin.Youdao)的插件，那么则需要使用`yd` + 空格 + 翻译内容进行触发。这个触发关键字可以配置，另外在后续的文章中我会介绍如何通过快捷键来简化这个过程。
+
+
   * **程序插件(Programs)**  
     
     ![http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtwot5lmj20m807maas.jpg](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtwot5lmj20m807maas.jpg)  
