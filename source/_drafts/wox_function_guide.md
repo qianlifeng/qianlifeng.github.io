@@ -15,16 +15,93 @@ Tag: [Wox]
 <br/>
 #系统插件
 ----------------------------------
-  * **颜色插件(Color)**
-  * **控制面板插件(Control Panel)**
-  * **计算器插件(Caculator)**
-  * **网址插件(URL handler)**
+  * **程序插件(Programs)**  
+    
+    ![http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtwot5lmj20m807maas.jpg](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtwot5lmj20m807maas.jpg)  
+    
+    把这个系统插件放到第一个介绍，足可见他的重要性。Wox最核心也是最基本的一个功能就是快速启动程序。  
+    
+    Wox程序插件集成了拼音检索的功能。用户可以直接用拼音或拼音首字母搜索程序，这对国人来说是一项很便利的优化。而且Wox搜索列表中的每一项都有自己的权重值。每次选择一项后，该项的权重会增大。这样下次再次搜索此项的时候，该项将会优先显示在列表前面。
+    
+    ![http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrx1jpdrij20m807m0tg.jpg](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrx1jpdrij20m807m0tg.jpg)  
+    
+    Wox程序搜索列表主要从两个地方获取。  
+    1. 开始菜单中的程序。  
+    
+      Wox会自动收集开始菜单中的程序列表并索引之后供用户进行搜索。  
+      
+    2. 用户自定义目录中的程序。  
+      
+      如果用户需要索引的程序并不在开始菜单中，Wox还提供了自定义文件夹的方式让用户指定需要索引的文件夹。具体的设置在`Setting=>Plugin=>Programs`下面：  
+      
+      ![http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrwuw8m25j20m80go76k.jpg](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrwuw8m25j20m80go76k.jpg)
+  
+      在指定索引目录的同时，用户还可以指定需要索引的文件类型。默认Wox会索引以`lnk;exe;bat`为结尾的程序。用户可以通过点击`Index File suffixes`按钮进行设置。  
+      
+    
+  <br/>
+  * **颜色插件(Color)**  
+  
+    ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx7z54j7j20m803gq2y.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx7z54j7j20m803gq2y.jpg)  
+    
+    当用户输入符合特定条件的颜色值的时候，Wox会告诉你这个颜色是什么。
+  
+  <br/>
+  * **控制面板插件(Control Panel)**  
+  
+    ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx9znjv9j20m803g3ym.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx9znjv9j20m803g3ym.jpg)  
+    
+    Wox还支持控制面板的搜索。例如上图所示，输入防火墙的首拼音字母后，Wox会搜索出控制面板中的防火墙选项。
+  
+  <br/>
+  * **计算器插件(Caculator)**  
+  
+    ![http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxc7incnj20m803gglq.jpg](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxc7incnj20m803gglq.jpg)  
+    
+    Wox内置了很强大的计算插件。直接在Wox中搜索你想计算的公式，立马就能得到计算结果。
+  
+  <br />
+  * **网址插件(URL handler)**  
+  
+    ![http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrxeradmpj20m803ggln.jpg](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrxeradmpj20m803ggln.jpg)  
+    
+    当你拷贝了一个网址想快速打开此网址的时候，打开Wox，粘贴，回车即可。
+  
+  <br />
   * **Web搜索插件(Web Searches)**
   * **命令行插件(Shell)**
-  * **文件夹插件(Folder)**
-  * **程序插件(Programs)**
-  * **系统命令插件(System Commands)**
-  * **第三方插件提示插件(Third-party Indicator)**
+  
+    ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrtig5gbyj20m8090wez.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrtig5gbyj20m8090wez.jpg)  
+    
+    Wox提供了可替换系统运行命令的插件（默认还是Win + R触发）。此插件相比较于原生的运行程序，提供了一下一些额外的好处：  
+    1. 界面更加直观，搜索更加便利。
+    
+      拿`iisreset`这个例子来说，如果在传统的运行界面中搜索键入reset这个命令是得不到任何提示结果的，但是在Wox中则可以得到`iisreset`这个提示，前提是你以前运行过此命令。  
+      
+    2. 经常使用的5个命令将会直接显示在界面上
+    
+  <br/>
+  * **文件夹插件(Folder)**  
+    
+    ![http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxk3oir4j20m803g74c.jpg](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxk3oir4j20m803g74c.jpg) 
+    
+    Wox提供了文件夹书签的功能。如果你有经常需要访问的文件夹，那么你可以将它加入文件夹列表中。以后直接搜索文件夹的名字即可快速打开此文件夹了。添加的设置位于：`Settings=>Plugin=>Folder`当中。
+    
+  <br />
+  * **系统命令插件(System Commands)**  
+  
+    ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxgqz5n1j20m803gaa4.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxgqz5n1j20m803gaa4.jpg)  
+    
+    Wox集成了一些系统级别的命令。例如，注销，关机，锁定等等。具体的支持列表可以从`Settings=>Plugin=>System Command`中查看。
+  
+  <br />
+  * **第三方插件提示插件(Third-party Indicator)**  
+  
+    ![http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtg0ec9kj20m8068jrk.jpg](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtg0ec9kj20m8068jrk.jpg)
+    
+    如上图所示，此插件用于提示其他插件的触发关键字。
+    
+  <br/>
   * **查找文件插件(Find file)**  
   
     ![http://api.drp.io/files/544a1c854f080.gif](http://api.drp.io/files/544a1c854f080.gif)
@@ -41,7 +118,7 @@ Tag: [Wox]
 
   除了系统插件和内置的插件外，Wox还提供了插件平台用于插件制作者分享自己制作的插件。[http://www.getwox.com/plugin]()  
   
-  目前，Wox支持的插件语言包括但不仅限于`C#`和`Python`，用户甚至可以使用`C`,`Ruby`,`Nodejs`等等各种语言来编写Wox插件。目前对使用C#编写的插件支持度最好，Python其次。关于如何编写Wox插件，大家有兴趣可以去看[这篇文章](http://url_to_do)中的指南。
+  目前，Wox支持的插件语言包括但不仅限于`C#`和`Python`，用户甚至可以使用`C`,`Ruby`,`Nodejs`,`Go`等等各种语言来编写Wox插件。目前对使用C#编写的插件支持度最好，Python其次。关于如何编写Wox插件，大家有兴趣可以去看[这篇文章](http://url_to_do)中的指南。
   
 <br/>
 #主题
