@@ -1,11 +1,11 @@
 # Header
 menu:
-  Home: /
-  Archives: /archives
-rss: /atom.xml
+  首页: /
+  Github: http://www.github.com/qianlifeng
+  博客园: http://www.cnblogs.com/qianlifeng
 
 # Content
-excerpt_link: Read More
+excerpt_link: 继续阅读
 fancybox: true
 
 # Sidebar
@@ -20,7 +20,7 @@ widgets:
 # Miscellaneous
 google_analytics:
 favicon: /favicon.png
-twitter:
+twitter: scottqian2012
 google_plus:
 fb_admins:
 fb_app_id:
