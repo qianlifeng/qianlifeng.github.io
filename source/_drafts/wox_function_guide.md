@@ -68,7 +68,16 @@ Tag: [Wox]
     当你拷贝了一个网址想快速打开此网址的时候，打开Wox，粘贴，回车即可。
   
   <br />
-  * **Web搜索插件(Web Searches)**
+  * **Web搜索插件(Web Searches)**  
+  
+    ![http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxsgt1drj20m80aegm7.jpg](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxsgt1drj20m80aegm7.jpg)  
+    
+    Wox还提供了名为Web搜索的系统插件。所谓Web搜索，就是Wox允许用户设置一个URL，然后替换其中搜索关键字部分，从而达到快速搜索的目的。最常见的莫过于谷歌，百度搜索了。Wox内置了谷歌的Web搜索。关键字是`g`。  
+    
+    ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxwxd0xwj20m80goq5o.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxwxd0xwj20m80goq5o.jpg)
+    
+  
+  <br />
   * **命令行插件(Shell)**
   
     ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrtig5gbyj20m8090wez.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrtig5gbyj20m8090wez.jpg)  
