@@ -72,10 +72,11 @@ Tag: [Wox]
   
     ![http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxsgt1drj20m80aegm7.jpg](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxsgt1drj20m80aegm7.jpg)  
     
-    Wox还提供了名为Web搜索的系统插件。所谓Web搜索，就是Wox允许用户设置一个URL，然后替换其中搜索关键字部分，从而达到快速搜索的目的。最常见的莫过于谷歌，百度搜索了。Wox内置了谷歌的Web搜索。关键字是`g`。  
+    Wox还提供了名为Web搜索的系统插件。所谓Web搜索，就是Wox允许用户设置一个URL，然后替换其中搜索关键字部分，从而达到快速搜索的目的。最常见的莫过于谷歌，百度搜索了。Wox内置了谷歌的Web搜索。关键字是`g`。另外在添加自定的Web搜索的时候记得把需要替换的地方换成`{q}`占位符，此占位符会在正常搜索的时候替换为你的输入。  
     
     ![http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxwxd0xwj20m80goq5o.jpg](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxwxd0xwj20m80goq5o.jpg)
     
+    在Web搜索中，Wox还提供了搜索建议的功能。如上图所示，启动了搜索建议之后，在进行web搜索的过程中，Wox会根据你的搜索关键字给出其他相关的可能的搜索。建议来源可选择谷歌或者百度。
   
   <br />
   * **命令行插件(Shell)**
