@@ -1,14 +1,14 @@
 # Hexo Configuration
-## Docs: http://zespia.tw/hexo/docs/configure.html
-## Source: https://github.com/tommy351/hexo/
+## Docs: http://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
 
 # Site
 title: 猫猫二次元
 subtitle:
-description: 
+description:
 author: qianlifeng
 email: qianlf2008@163.com
-language: zh-cn
+language: zh-CN
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -19,17 +19,21 @@ tag_dir: tags
 archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
+permalink_defaults:
+
+# Directory
+source_dir: source
+public_dir: public
 
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
-auto_spacing: false # Add spaces between asian characters and western characters
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
-max_open_file: 100
-multi_thread: true
 filename_case: 0
 render_drafts: false
+post_asset_folder: false
+relative_link: false
 highlight:
   enable: true
   line_number: true
@@ -53,8 +57,9 @@ tag: 1
 ## You can customize the logger format as defined in
 ## http://www.senchalabs.org/connect/logger.html
 port: 4000
+server_ip: localhost
 logger: false
-logger_format:
+logger_format: dev
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -72,7 +77,12 @@ pagination_dir: page
 disqus_shortname: scottqian
 
 # Extensions
-## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
-## Themes: https://github.com/tommy351/hexo/wiki/Themes
-theme: light
+## Plugins: https://github.com/hexojs/hexo/wiki/Plugins
+## Themes: https://github.com/hexojs/hexo/wiki/Themes
+theme: landscape
 exclude_generator:
+
+# Deployment
+## Docs: http://hexo.io/docs/deployment.html
+deploy:
+  type:
