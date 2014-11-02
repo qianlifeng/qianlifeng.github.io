@@ -171,7 +171,11 @@ set
 
 ![](http://ww3.sinaimg.cn/large/5d7c1fa4gw1elx2c1rs6zj207q0ietao.jpg)
 
-第二步应用就是我们用到的代码啦：`Assembly.GetExecutingAssembly().GetManifestResourceStream(@"QLFUI.Res.button.btnnomal.bmp")`，这句话前面的照写，后面的路径规则是“命名空间+文件夹名+你的文件名+文件名后缀”，当然如果你的文件直接放在项目下就没有文件夹名了。聪明的大家应该明白吧？呵呵！其中我们要用到的文件大家可以从我给的项目例子中复制。接下来的 
+第二步应用就是我们用到的代码啦：  
+```
+Assembly.GetExecutingAssembly().GetManifestResourceStream(@"QLFUI.Res.button.btnnomal.bmp")
+```
+这句话前面的照写，后面的路径规则是“命名空间+文件夹名+你的文件名+文件名后缀”，当然如果你的文件直接放在项目下就没有文件夹名了。聪明的大家应该明白吧？呵呵！其中我们要用到的文件大家可以从我给的项目例子中复制。接下来的 
 ```
 MakeTransparent(_normalImage);
 MakeTransparent(_moveImage);
