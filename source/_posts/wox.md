@@ -1,7 +1,6 @@
 title: 快速启动器Wox
-category: 软件
 date: 2014-10-29 18:53:17
-Tag: [Wox]
+Tag: [软件,Wox]
 ---
 
 其实在正式写Wox之前，我就一直想写一款快速启动工具。因为自己本身快捷键用的很多，特别是用了Vim之后。自带的`Win + R`感觉不能搜索程序，比较鸡肋。这中间也使用过[Launchy](http://www.launchy.net/)，但是总感觉好久不维护的样子，后面慢慢也放弃掉了。大概2011年的时候也用C语言做过一些这方面的尝试，[fstart](https://code.google.com/p/fstart/) 和 [smartrun](https://code.google.com/p/smartrun/)。但是不知道是程序功底不够呢，还是C++实在太烂，最后也丢弃掉了。然后大概是2013年的11月份知道了Mac有个[Alfred](http://www.alfredapp.com/)，惊为神器，网上也是好评如潮。可惜windows下面没有这玩意儿:(  

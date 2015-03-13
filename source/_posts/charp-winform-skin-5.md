@@ -1,7 +1,6 @@
 title: 跟我学做c#皮肤美化（五）
-category: CSharp
 date: 2010-04-23 09:56:17
-tags: [皮肤]
+tags: [DotNet,皮肤]
 ---
 
 本篇主要解决上篇遗留的一些问题

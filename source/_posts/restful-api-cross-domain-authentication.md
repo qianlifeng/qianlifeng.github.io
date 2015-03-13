@@ -1,7 +1,6 @@
 title: RESTful api跨域认证
 date: 2013-11-13 16:24:17
-tags:
-category: Web开发
+tags: [web]
 ---
 
 本文主要介绍了RESTful api跨域认证的一些知识。包括了什么是跨域，跨域的危害，如何进行合理的跨域认证等。另文中如有不对的地方，欢迎指正.

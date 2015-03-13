@@ -1,5 +1,4 @@
 title: 在nginx上配置flask网站
-category: Linux
 date: 2014-01-14 21:46:17
 tags: nginx
 ---

@@ -1,7 +1,6 @@
 title: 使用Supervisor管理程序
-category: Linux
 date: 2014-07-25 18:27:17
-tags: [supervisor]
+tags: [linux,supervisor]
 ---
 
 人生苦短，我用Supervisor

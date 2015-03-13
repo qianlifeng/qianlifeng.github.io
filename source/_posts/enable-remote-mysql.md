@@ -1,5 +1,4 @@
 title: 开启unbuntu上3306远程连接
-category: 数据库
 date: 2013-11-22 21:15:17
 tags: mysql
 ---

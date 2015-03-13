@@ -1,7 +1,6 @@
 title: 跟我学做c#皮肤美化（二）
-category: CSharp
 date: 2010-04-13 10:22:17
-tags: [皮肤]
+tags: [DotNet,皮肤]
 ---
 这篇介绍Button控件的制作
 

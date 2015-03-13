@@ -1,1 +1,1 @@
-hexo server
+hexo server -p 4001

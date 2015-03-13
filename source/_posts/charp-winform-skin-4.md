@@ -1,7 +1,6 @@
 title: 跟我学做c#皮肤美化（四）
-category: CSharp
 date: 2010-04-15 13:04:17
-tags: [皮肤]
+tags: [DotNet,皮肤]
 ---
 
 这篇介绍窗体的制作

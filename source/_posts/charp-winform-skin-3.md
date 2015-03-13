@@ -1,7 +1,6 @@
 title: 跟我学做c#皮肤美化（三）
-category: CSharp
 date: 2010-04-15 12:58:17
-tags: [皮肤]
+tags: [DotNet,皮肤]
 ---
 这篇介绍Checkbox控件的制作
 
