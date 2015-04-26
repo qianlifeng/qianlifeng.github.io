@@ -57,43 +57,6 @@ opkg install luci-i18n-chinese
 ```
 安装完成之后，进入luci界面。然后到System -> System -> Language and Style，将语言改成中文。
 
-###释放被保留的90多M空间
-默认安装之后，OpenWRT只能识别10多M的空间。但是，WNDR4300自带了120多M
-的Flash，这不是浪费么
-```
-mkfs.ext4 /dev/mtdblock11  
-mkdir /local  
-mount -t ext4 /dev/mtdblock11  /local -o rw,sync
-```
-上面的方法在重启后，保留的90多M空间就又不可见，故使用如下方法：
-将以下语句加入到/etc/rc.local文件中，使得每次重启后都会加载保留的90多M空间到/local目录
-```
-mount -t ext4 /dev/mtdblock11  /local -o rw,sync  
-```
-修改/etc/opkg.conf，增加以下语句：
-```
-dest local /local
-```
-
-修改/etc/profile，修改/增加以下语句：
-```
-export PATH=/usr/bin:/usr/sbin:/bin:/sbin:/local/bin:/local/usr/bin
-export LD_LIBRARY_PATH=/local/lib:/local/usr/lib
-alias opkg='opkg -d local'
-```
-
-执行以下命令，使得上面的配置立刻生效：
-```
-source /etc/profile  
-
-# /local/usr目录下建立链接：  
-ln -s /usr/share share  
-# /local目录下建立链接：  
-ln -s /etc etc  
-ln -s /www www  
-```
-这样以后就可以使用opkg命令来把工具默认安装到local目录了。
-
 至此，路由器基本的设置已经完成。如果要求不高，设置到这里就行了。但是既然刷了OpenWRT，有几个会满足只到这里呢？
 
 OpenWRT插件
@@ -116,21 +79,82 @@ opkg install luci-app-shadowsocks-spec-{版本号}.ipk
 * 安装USB驱动
 ```
 opkg update
-opkg install kmod-usb-core
-opkg install kmod-usb-ohci #安装usb ohci控制器驱动
-opkg install kmod-usb2 #安装usb2.0
 opkg install kmod-usb-storage #安装usb存储设备驱动
 opkg install kmod-usb-storage-extras
 opkg install usbutils #安装了这个后可以用 lsusb
-opkg install kmod-fs-ntfs #ntfs内核驱动
-opkg install mount-utils #挂载卸载工具
 opkg install ntfs-3g #挂载NTFS
-opkg install kmod-fs-vfat #挂载FAT
 opkg install block-mount  #安装之后luci的系统->挂载点下可以直接查看挂载点信息
 ```
 
+使用如下命令挂载硬盘
+```
+lsusb #查看usb设备  
+mkdir /mnt/seagate
+#加载移动硬盘，且使用big_writes等参数提高性能  
+ntfs-3g /dev/sda1 /mnt/seagate -o noatime,big_writes,async
+```
+
+可以把上面最后一句加入到/etc/rc.local中实现开机自动挂载
+
+###文件共享Samba
+```
+opkg install luci-app-samba
+```
+安装完成后，重启路由器。此时服务菜单下面会多一个 *网络共享*， 简单配置一下即可,没什么好讲的了。
+
+###BT下载Aria2
+
+首先，安装aria2。注意，不要从自带软件源里面安装aria2，自带的是1.18.7版本，这个版本默认不支持BT和磁力链接。所以推荐下载1.18.5版本的手动安装[aria2](http://pan.baidu.com/s/1eQiwpMi)
+```
+opkg install aria2_1.18.5-1_ar71xx.ipk
+opkg install yaaw_all.ipk
+opkg install luci-app-aria2_all.ipk
+```
+安装完成后，重启路由器。此时服务菜单下面会多一个 *Aria2配置*， 简单配置一下即可,也没什么好讲的。
+配置完成后，打开 [http://192.168.1.1/yaaw](http://192.168.1.1/yaaw) 就可以访问了
+
+<!-- todo:
 1. 硬盘休眠
 2. 广告屏蔽adbyby
-4. aria2
-5. 网络共享 Samba
 6. ChinaDNS
+-->
+
+动态域名解析
+---------
+我们这里使用DNSPod提供的动态域名解析方案。首先，你得有一个DNSPod的域名，然后你得通过如下两个请求获得一些关于这个域名的基本信息：
+
+获取域名列表得到 domain_id：
+------------------------
+```
+curl -X POST https://dnsapi.cn/Domain.List -d "login_email=<your login email>&login_password=xxxx&format=json"
+```
+
+获取域名的记录列表得到 record_id：
+------------------------------------
+```
+curl -X POST https://dnsapi.cn/Record.List -d "login_email=heddom&login_password=xxx&format=json&domain_id=11078351"
+```
+然后再将获得的domain_id和record_id放在下面的语句中请求
+```
+#!/bin/bash
+curl -X POST https://dnsapi.cn/Record.Ddns -d 'login_email=xxxxxxxxx&login_password=xxxxxxx&format=json&domain_id=xxxx&record_id=xxxxxx&record_line=默认&sub_domain=your_subdomain'
+```
+最后把上面这段加入到Crontab中，让他定时运行即可。
+
+有了固定了域名，下面就可以做些有意思的事情了。
+
+#暴露树莓派的SSH端口
+点击网络->防火墙->端口转发，新建一个22到22的端口转发即可
+
+###暴露离线下载到外网
+
+在树莓派的nginx做如下配置，这样在访问subdomain.domain.com的时候就直接是下载界面了。
+```
+server {
+        server_name subdomain.domain.com;
+
+        location / {
+                proxy_pass   http://192.168.1.1/yaaw/;
+        }
+}
+```
