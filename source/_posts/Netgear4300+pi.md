@@ -1,4 +1,4 @@
-title: 我的网件4300+树莓派
+title: Netgear4300折腾记
 date: 2015-04-26 17:08:17
 ---
 
@@ -123,14 +123,12 @@ opkg install luci-app-aria2_all.ipk
 ---------
 我们这里使用DNSPod提供的动态域名解析方案。首先，你得有一个DNSPod的域名，然后你得通过如下两个请求获得一些关于这个域名的基本信息：
 
-获取域名列表得到 domain_id：
-------------------------
+获取域名列表得到 domain_id
 ```
 curl -X POST https://dnsapi.cn/Domain.List -d "login_email=<your login email>&login_password=xxxx&format=json"
 ```
 
 获取域名的记录列表得到 record_id：
-------------------------------------
 ```
 curl -X POST https://dnsapi.cn/Record.List -d "login_email=heddom&login_password=xxx&format=json&domain_id=11078351"
 ```
@@ -143,7 +141,7 @@ curl -X POST https://dnsapi.cn/Record.Ddns -d 'login_email=xxxxxxxxx&login_passw
 
 有了固定了域名，下面就可以做些有意思的事情了。
 
-#暴露树莓派的SSH端口
+###暴露树莓派的SSH端口
 点击网络->防火墙->端口转发，新建一个22到22的端口转发即可
 
 ###暴露离线下载到外网
