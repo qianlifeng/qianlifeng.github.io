@@ -7,6 +7,11 @@ tags: [随笔]
 
 <!--more-->
 
+##Update:
+
+###2014-06-20 [我的博客新选择](http://scottqian.com/2014/06/20/my_new_choise_for_blogging/)
+###2015-05-05 Hexo升级到3.0后，命令做了更改。下文提到的命令可能不再适用于新版本
+
 说起博客独立之路也算走的曲折。一开始在[博客园](http://www.cnblogs.com/qianlifeng)写些文章，写着写着就想自己搞一个独立的空间，因为这样定制性高一点，适合自己折腾。后来就买了个虚拟空间，99块钱2年。没错，是99，不是999，也不要199，只要99。当时穷学生，果断买下。后果你懂的，三天两头的挂机。再后来开始买国外的VPS，当前用的是DigitalOcean的，5$一个月。这个价钱说起来还是可以的，SSD的配置。买了VPS，因为自己懒，直接装了个wordpress。一开始还好，后来经常出现数据库连接不上的问题，另外感觉wordpress有的太重量级了，自己插不上手。最后，慢慢就走上静态博客这条路。
 静态博客我总结了一下，有以下几点好处：  
 
@@ -33,29 +38,25 @@ tags: [随笔]
 #Hexo#
 ----------
 
+
 Hexo主打的特点是快，和简单易用。快是因为依托了Node.js和强大的多线程处理能力。易用说的是配置简单，开箱即用。
 	
 安装Hexo只需要简单一句话：
-	```
-	$ npm install hexo -g
-	```
+```
+$ npm install hexo -g
+```
 
 使用Hexo创建一个Blog：
-	```
-	$ hexo init blog && cd blog
-	```  
+```
+$ hexo init blog && cd blog
+```
 
 生成静态Blog:
-	```
-	$ hexo generate
-	```
+```
+$ hexo generate
+```
 
 开启本地服务器，直接在浏览器中查看效果：
-	```
-	$ hexo serve
-	```  
-
-#update:  
-
-[我的博客新选择](http://scottqian.com/2014/06/20/my_new_choise_for_blogging/)
-
+```
+$ hexo serve
+```
