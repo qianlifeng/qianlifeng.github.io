@@ -8,8 +8,9 @@ tags: [Java]
 <!--more-->
 先看官方定义，Maven被定义为一套可用于管理项目的构建，报告和文档的工具。使用自动构建工具有利于项目的
 部署，测试等，让开发人员从繁琐的编译发布中解脱出来。
-
->Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+```
+Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+```
 
 #建立项目
 本着约定甚于配置的原则，Maven有一套默认的约定项目结构。作为例子，这里创建如下目录结构：
