@@ -175,13 +175,13 @@ public class ServletDemo extends HttpServlet {
 
 #性能测试工具Jmeter
 我是用了Jmeter工具进行性能测试。首先，需要建立一个线程组：
-![](/images/nodejs-vs-java-performance/1.png)
+![](/Images/nodejs-vs-java-performance/1.png)
 然后设置一些关于线程组的变量。我们这里使用了30个线程，每个线程发送1000个请求，立即发送。相当于30000个请求一下子过来，看服务器每秒能处理多少个请求。
-![](/images/nodejs-vs-java-performance/2.png)
+![](/Images/nodejs-vs-java-performance/2.png)
 在线程组之下，还需要设置一个HTTP请求sampler，然后在这里面设置需要请求的url
-![](/images/nodejs-vs-java-performance/3.png)
+![](/Images/nodejs-vs-java-performance/3.png)
 最后，添加一个聚合报告，用于查看测试的结果
-![](/images/nodejs-vs-java-performance/4.png)
+![](/Images/nodejs-vs-java-performance/4.png)
 
 
 #测试结果
