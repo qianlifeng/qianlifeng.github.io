@@ -22,10 +22,10 @@ tags: [随笔]
 Travis是一个持续集成（Continue Integrate）的服务，对于开源的Github项目它是免费的。你需要到他的网站使用Github账户登录，然后设置页面打开我们刚才新建的那个仓库的持续集成的开关即可。  
 
   在**source**分支中新建`.travis.yml`文件用于Travis的一些配置。参加如下：
-  ```
-  branches:
-  only:
-    - source
+```yaml
+branches:
+only:
+  - source
 language: node_js
 node_js:
   - "0.10"

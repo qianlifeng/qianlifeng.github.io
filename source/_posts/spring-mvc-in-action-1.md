@@ -25,7 +25,7 @@ tags: [Java]
 ```
 
 其中，`HomeController.java`内容如下
-```
+```java
 package com.scottqian.controllers;
 
 import org.springframework.stereotype.Controller;
@@ -46,7 +46,7 @@ public class HomeController {
 本身结构就比较清晰了，对MVC有点了解的从字面上看都应该知道它的意思了（先抛开@Controller这种注解不谈）。唯一可能疑惑的地方是`Home`方法的返回值，这里返回的是一个字符串。这个字符串代表了视图的名字，在SpringMVC 2.x时代还可以返回`ModelAndView`，然后在`ModelAndView`里面设置`View`和`Model`，其实效果都一样。  
 
 `Application.java`内容如下：
-```
+```java
 package com.scottqian;
 
 import org.springframework.boot.SpringApplication;
@@ -66,7 +66,7 @@ public class Application {
 2. 内嵌Web服务器，就地运行（忘记WAR文件吧），配合`spring-boot-maven-plugin`的`mvn spring-boot:run`直接从命令行启动程序
 
 `home.html`内容如下：
-```
+```html
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -81,7 +81,7 @@ public class Application {
 模板，没什么好说的了。
 
 `pom.xml`内容如下：
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">

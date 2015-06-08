@@ -33,7 +33,7 @@ date: 2015-06-03 15:41:17
 
 #准备数据库
 首先，使用如下python脚本fake出我们的测试数据。我这里生成了一张200W行数据的表。后面就针对该表进行查询
-```
+```python
 # encoding: utf-8
 #!/usr/bin/python
 
@@ -70,7 +70,7 @@ db.close()
     --httpserver.js
 ```
 `package.json`里面定义了该项目的一些信息与依赖，因为我们使用的是mysql数据库，所以这里会依赖一个mysql的包：
-```
+```json
 {
     "name": "test",
     "version": "0.1.0",
@@ -85,7 +85,7 @@ db.close()
 }
 ```
 下面是Nodejs的测试代码：
-```
+```js
 var http = require("http");
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -126,7 +126,7 @@ function query(callback){
 
 #Java
 根据第一条规则，我这里没有使用SpringMVC类似的框架，而是直接使用了Servlet进行测试。直接看我实现的Servlet类：
-```
+```java
 package com.scottqian.javaPerformanceTest;
 
 import java.io.IOException;
@@ -196,7 +196,7 @@ public class ServletDemo extends HttpServlet {
 }
 ```
 下面是web.xml的配置：
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

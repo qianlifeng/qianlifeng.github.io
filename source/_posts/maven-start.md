@@ -21,7 +21,7 @@ Apache Maven is a software project management and comprehension tool. Based on t
       --hello
 ```
 在hello目录下面，建立两个文件。分别为HelloWorld.java和Greeter.java
-```
+```java
 package hello;
 
 public class HelloWorld {
@@ -31,7 +31,7 @@ public class HelloWorld {
     }
 }
 ```
-```
+```java
 package hello;
 
 public class Greeter {
@@ -50,7 +50,7 @@ mvn -v
 
 #定义Maven构建信息
 安装Maven完成之后你需要在项目的根目录下面定义一个pom.xml的文件，此文件里面包含了所有构建这个项目所需要的信息。这里是一个例子：
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -128,7 +128,7 @@ main\resources
 #依赖包
 一个稍微复杂点的项目或多或少会用到第三方的库，如果使用Maven来管理这些依赖?  
 这里以Spring为例，只需要在pom.xml的`<dependencies>`声明依赖即可：
-```
+```xml
 <dependencies>
     <dependency>
         <groupId>org.springframework</groupId>
