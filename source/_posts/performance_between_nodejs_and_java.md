@@ -103,10 +103,22 @@ http.createServer(function(request, response) {
     });
 }).listen(8888);
 
-
 function query(callback){
-    connection.query("select * from purch_sku_master where sku_id = 'sku-000ba89a-4817-4835-ba55-7606ec7b54ed'", function(err, rows, fields) {
-        if (err) throw err;
+    var skus = [
+        'sku-0000bcd5-c1f7-4460-aaf8-7ee1ab10d409',
+        'sku-000f1583-8026-407f-92e2-b6b67c5447e5',
+        'sku-000fa572-8f67-4e37-9f2f-52f9bb82a229',
+        'sku-0017c850-818b-4bb8-922b-59988b279679',
+        'sku-0019ca10-fdb8-490c-a1c7-971b840d0d5f',
+        'sku-0019ef1e-0363-41b8-87df-f0f4f51453d0',
+        'sku-001a1dd6-cc26-4bfe-a81c-ee952bf024d1',
+        'sku-001a475f-45df-4df2-b8bb-643e022b4c72',
+        'sku-001ab267-18c6-43b4-915f-104eef32c336',
+        'sku-0020b18b-8e09-4d3d-8920-97b27e2d11c4'
+    ];
+
+    var sku = skus[Math.floor(Math.random() * 6) + 1];
+    connection.query("select * from purch_sku_master where sku_id = '"+sku+"'", function(err, rows, fields) {
         callback(rows);
     });
 }
@@ -123,6 +135,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -131,14 +146,40 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class ServletDemo extends HttpServlet {
 
+    private List<String> skus;
+
+    public ServletDemo() {
+        skus = new ArrayList<String>();
+        skus.add("sku-0000bcd5-c1f7-4460-aaf8-7ee1ab10d409");
+        skus.add("sku-000f1583-8026-407f-92e2-b6b67c5447e5");
+        skus.add("sku-000fa572-8f67-4e37-9f2f-52f9bb82a229");
+        skus.add("sku-0017c850-818b-4bb8-922b-59988b279679");
+        skus.add("sku-0019ca10-fdb8-490c-a1c7-971b840d0d5f");
+        skus.add("sku-0019ef1e-0363-41b8-87df-f0f4f51453d0");
+        skus.add("sku-001a1dd6-cc26-4bfe-a81c-ee952bf024d1");
+        skus.add("sku-001a475f-45df-4df2-b8bb-643e022b4c72");
+        skus.add("sku-001ab267-18c6-43b4-915f-104eef32c336");
+        skus.add("sku-0020b18b-8e09-4d3d-8920-97b27e2d11c4");
+    }
+
+    private String getRandomSku() {
+        return skus.get(randInt(0, 9));
+    }
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
+    }
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         PrintWriter pw = res.getWriter();
         res.setContentType("text/plain");
         try {
-            Class.forName("com.mysql.jdbc.Driver"); //这里注意要将mysql-connector-java-5.1.35-bin.jar拷贝到WEB-INF/lib下面
+            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "", "");
             Statement stmt = con.createStatement();
-            String sql = "select * from purch_sku_master where sku_id = 'sku-000ba89a-4817-4835-ba55-7606ec7b54ed'";
+
+            String sql = "select * from purch_sku_master where sku_id = '" + getRandomSku() + "'";
 
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
