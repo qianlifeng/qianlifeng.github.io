@@ -6,9 +6,15 @@ tags: [Java]
 第一次使用Spring的AOP拦截，感觉还是很强大的嘛^Q^
 <!-- more -->
 
-直接来一个最简单的例子，首先实现一个同步方法的切面。要求是所有注解了`@Synchronized`的方法都必须同步执行（加锁）。  
+直接来一个最简单的例子，实现一个方法同步的切面。要求是所有注解了`@Synchronized`的方法都必须同步执行（加锁）。 效果如下： 
+```Java
+@Synchronized
+public void imporOrder(){
+    //todo: logic
+}
+```
 
-首先声明注解：
+如何实现呢？ 首先声明注解：
 
 ```Java
 import java.lang.annotation.ElementType;
