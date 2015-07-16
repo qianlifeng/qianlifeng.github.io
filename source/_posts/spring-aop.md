@@ -1,14 +1,22 @@
-title: Spring AOP小试 category: Java
+title: Spring AOP小试
+date: 2015-07-14 20:47:17
+tags: [Java]
+---
 
-# date: 2015-07-14 18:53:17
 第一次使用Spring的AOP拦截，感觉还是很强大的嘛^Q^
 <!-- more -->
 
-直接来一个最简单的例子，首先实现一个同步方法的切面。要求是所有注解了`@Synchronized`的方法都必须同步执行（加锁）。  
-
-首先声明注解：
-
+直接来一个最简单的例子，实现一个方法同步的切面。要求是所有注解了`@Synchronized`的方法都必须同步执行（加锁）。 效果如下： 
+```Java
+@Synchronized
+public void imporOrder(){
+    //todo: logic
+}
 ```
+
+如何实现呢？ 首先声明注解：
+
+```Java
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,7 +33,7 @@ public @interface Synchronized {
 
 接着声明切面
 
-```
+```Java
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -55,7 +63,7 @@ public class SynchronizedAspect {
 4. 这里的`@Order`指定了该注解的优先级，越小的数字代表了越高的优先级
 
 最后启用切面，在spring配置文件中配置如下信息：
-```
+```Xml
 <!-- 开启AOP切面 -->
 <aop:aspectj-autoproxy/>
 ```
