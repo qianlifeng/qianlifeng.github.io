@@ -3,7 +3,7 @@ date: 2015-07-16 17:57:17
 tags: [linux]
 ---
 
-ngrok是一款内网穿透神器，可以直接将内网的对口暴露到外网。它包含服务端和客户端，
+ngrok是一款内网穿透神器，可以直接将内网的端口暴露到外网，实在是居家必备神器。
 
 <!-- more -->
 
@@ -61,7 +61,7 @@ GOOS=windows GOARCH=amd64 make release-client
 ./ngrokd -domain="yourdomain.com" -httpAddr=":8080" -httpsAddr=":445"
 ```
 
-*启动客户端
+* 启动客户端
 首先在ngrok.exe的同级目录新建一个配置文件ngrok.conf
 ```
 server_addr: "yourdomain.com:4443"
@@ -69,7 +69,7 @@ trust_host_root_certs: false
 ```
 这里的4443是固定的，是ngrok在服务端监听的端口。  
 
-然后运行命令：
+  然后运行命令：
 ```
 ngrok.exe -subdomain oms -config=ngrok.conf 8081
 ```
