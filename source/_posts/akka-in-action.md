@@ -61,3 +61,74 @@ public class App {
 ```xml
 [INFO] [09/08/2015 16:44:52.482] [ActorSystem-akka.actor.default-dispatcher-3] [akka://ActorSystem/user/$a] Received String message: hello world
 ```
+
+如果你愿意，上面这个模型你可以当本地多线程来用。
+
+远程Actor
+---
+如果使用默认配置，ActorSystem会创建基于`LocalActorRefProvider`的Actor，即只在本地传递的Actor。与此对应的，我们还可以创建一个remote的Actor，这种Actor可以被远程调用，比如从另一个JVM中。  
+要启用远程Actor，需要再创建`ActorSystem`的时候传入一些额外的配置。下面以一个简单的例子做说明。假如我们有两个系统A,B。B需要调用A系统上面的Actor。  
+
+首先在A,B的maven依赖中加入额外的akka-remote引用：
+```xml
+<dependency>
+         <groupId>com.typesafe.akka</groupId>
+         <artifactId>akka-remote_2.10</artifactId>
+         <version>2.3.12</version>
+</dependency>
+```  
+
+在A中，启用remote并创建一个Actor：
+```Java
+
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+public class App {
+    public static void main(String[] args) {
+        Config combined = ConfigFactory.load();
+
+        Config remote = ConfigFactory.parseString("akka.actor.provider=akka.remote.RemoteActorRefProvider");
+        combined = remote.withFallback(combined);
+
+        //配置监听地址和端口，hostname可以忽略，默认为本机地址
+        Config addressConfig = ConfigFactory.parseString("akka.remote.netty.tcp={hostname=192.168.8.136, port=2552}");
+        combined = addressConfig.withFallback(combined);
+
+        final ActorSystem system = ActorSystem.create("ActorSystemA", combined);
+
+        //创建名字为ActorA的Actor
+        system.actorOf(Props.create(UserActor.class), "ActorA");
+    }
+}
+```
+
+在B中，同样的启用remote，但是不需要创建任何Actor，直接通过`actorSelection`直接选择A中的Actor路径即可
+```Java
+import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
+import akka.actor.ActorSystem;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+public class App {
+    public static void main(String[] args) {
+        Config combined = ConfigFactory.load();
+
+        Config remote = ConfigFactory.parseString("akka.actor.provider=akka.remote.RemoteActorRefProvider");
+        combined = remote.withFallback(combined);
+
+        //配置监听地址和端口，hostname可以忽略，默认为本机地址
+        Config addressConfig = ConfigFactory.parseString("akka.remote.netty.tcp={hostname=192.168.8.136, port=2553}");
+        combined = addressConfig.withFallback(combined);
+
+        final ActorSystem system = ActorSystem.create("ActorSystemB", combined);
+        ActorSelection selection = system.actorSelection("akka.tcp://ActorSystemA@192.168.8.136:2552/user/ActorA");
+        selection.tell("from B", ActorRef.noSender());
+    }
+}
+```  
+
+如果一切顺利，那么在A的控制台中会看到类似`Received String message: from B`的消息
