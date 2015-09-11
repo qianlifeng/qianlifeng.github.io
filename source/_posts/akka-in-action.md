@@ -6,7 +6,9 @@ tags: [AKKA]
 使用AKKA构建高并发的分布式系统
 <!--more-->
 
-#AKKA起步 本文使用Maven作为依赖管理工具。新建一个最基本的Maven console项目，并在pom.xml中加入如下依赖：
+AKKA起步  
+---
+本文使用Maven作为依赖管理工具。新建一个最基本的Maven console项目，并在pom.xml中加入如下依赖：
 
 ```xml
 <dependencies>
@@ -51,9 +53,7 @@ public class App {
 }
 ```
 
-可以把`ActorSystem`想象成一个Actor组织，所有的Actor活动都在这个组织下进行，包括Actor的创建。 一个`ActorSystem`会创建1-N个线程来真正执行的Actor任务。
-`ActorSystem`的创建是一个比较消耗 资源的过程，因此最好在一个逻辑程序中只创建一个`ActorSystem`。  
-
+可以把`ActorSystem`想象成一个Actor组织，所有的Actor活动都在这个组织下进行，包括Actor的创建。 一个`ActorSystem`会创建1-N个线程来真正执行的Actor任务。`ActorSystem`的创建是一个比较消耗 资源的过程，因此最好在一个逻辑程序中只创建一个`ActorSystem`。  
 `Actor`模型的设计原则是尽可能的对外界屏蔽`Actor`的具体实现，因此这里我们使用`system.actorOf`得到了一个`Actor`的引用，这样就屏蔽了Actor的内部细节。
 
 运行此程序，如果一切顺利可以看到如下输出，代表发送消息成功：
