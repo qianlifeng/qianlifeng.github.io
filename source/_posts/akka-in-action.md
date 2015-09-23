@@ -76,7 +76,7 @@ public class App {
          <artifactId>akka-remote_2.10</artifactId>
          <version>2.3.12</version>
 </dependency>
-```  
+```
 
 在A中，启用remote并创建一个Actor：
 ```Java
@@ -93,7 +93,7 @@ public class App {
         Config remote = ConfigFactory.parseString("akka.actor.provider=akka.remote.RemoteActorRefProvider");
         combined = remote.withFallback(combined);
 
-        //配置监听地址和端口，hostname可以忽略，默认为本机地址
+        //配置监听地址和端口，hostname可以忽略，默认为本机地址。port如果填写0，则为随机端口
         Config addressConfig = ConfigFactory.parseString("akka.remote.netty.tcp={hostname=192.168.8.136, port=2552}");
         combined = addressConfig.withFallback(combined);
 
