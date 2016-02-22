@@ -3,30 +3,8 @@ category: Java
 date: 2015-06-12 11:12:17
 ---
 
+自从用了Spring之后，除了一些数据模型类，基本上已经很少自己new对象了。Spring接管了这些对象的创建工作。今天就来聊聊Spring的根基IOC。
 <!-- more -->
 
-Spring中接触的最多的就是关于Bean的配置与使用。在Spring中，所有由Spring IoC容器管理的**对象**都称为bean。所以，这个bean不是一种关系或者其他什么东西，就是一个Java对象。
+先看两个祖先级的对象`BeanFactory`(since 2001)和`BeanDefinition`(since 2004)。`BeanFactory`是所有bean工厂的基类，而`BeanDefinition`是用于描述Bean的信息，实例化的时候需要用到。  
 
-#Bean的几种实例化方式
-###构造函数
-这种写法会直接调用ExampleBeanTwo的构造函数进行实例化，基本跟new操作差不多
-```xml
-<bean name="anotherExample" class="examples.ExampleBeanTwo"/>
-```
-
-###静态方法
-这种写法用于使用指定的静态方法创建的实例
-```xml
-<bean id="clientService" class="examples.ClientService" factory-method="createInstance"/>
-```
-
-```java
-public class ClientService {
-    private static ClientService clientService = new ClientService();
-    private ClientService() {}
-
-    public static ClientService createInstance() {
-        return clientService;
-    }
-}
-```
