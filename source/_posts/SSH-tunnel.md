@@ -25,5 +25,7 @@ ssh -R 9123:127.0.0.1:3306 username@remotehost
 
 ```
 这条命令会转发本地3308的流程到mysqlhost的3306端口
-ssh -f user@sshhost -L 3308:mysqlhost:3306 -N
+ssh -L 3308:mysqlhost:3306 user@sshhost
 ```
+
+还是比较好区分这两种命令的。R代表remote，L代表local，如果是-R表示remote -> local，-L标志local->remote
