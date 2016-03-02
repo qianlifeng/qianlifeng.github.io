@@ -18,3 +18,12 @@ SSH在手，天下我有
 #暴露内网的3306给remotehost的9123，这样别人访问外网的9123实际就是访问的内网的3306
 ssh -R 9123:127.0.0.1:3306 username@remotehost
 ```
+
+# 流量转发
+## 使用场景
+* 本地不能直接连接处于内网的mysql，可以通过ssh forward上去
+
+```
+这条命令会转发本地3308的流程到mysqlhost的3306端口
+ssh -f user@sshhost -L 3308:mysqlhost:3306 -N
+```
