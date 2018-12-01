@@ -1,6 +1,6 @@
 baseURL = "http://blog.qlf.pw"
 title = "钱李峰的博客"
-theme = "yinyang"
+theme = "yinyang2"
 
 [author]
   name = "Scott Qian"
