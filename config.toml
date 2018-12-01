@@ -1,0 +1,14 @@
+baseURL = "http://blog.qlf.pw"
+title = "钱李峰的博客"
+theme = "yinyang"
+
+[author]
+  name = "Scott Qian"
+  homepage = "https://blog.qlf.pw"
+
+[params]
+disqus = "scottqian"
+
+[[params.socials]]
+name = "Github"
+link = "https://github.com/qianlifeng"
