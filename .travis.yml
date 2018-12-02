@@ -3,6 +3,9 @@ sudo: true
 branches:
   only:
     - source
+language: go
+go:
+  - "1.11.x"
 before_install:
   - "sudo apt-get update"
   - "sudo apt-get install -y hugo"
