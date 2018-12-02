@@ -1,6 +1,7 @@
 baseURL = "http://blog.qlf.pw"
 title = "钱李峰的博客"
 theme = "yinyang"
+disableKinds = ["taxonomy", "taxonomyTerm","section"]
 
 [author]
   name = "Scott Qian"
