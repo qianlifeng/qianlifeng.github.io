@@ -7,8 +7,11 @@ language: go
 go:
   - "1.11.x"
 before_install:
-  - "sudo apt-get update"
-  - "sudo apt-get install -y hugo"
+  - "mkdir ~/src"
+  - "cd ~/src"
+  - "git clone https://github.com/gohugoio/hugo.git"
+  - "cd hugo"
+  - "go install --tags extended"
 script:
   - "hugo"
 after_success:
