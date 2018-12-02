@@ -1,13 +1,15 @@
-sudo: false
+sudo: true
 branches:
   only:
     - source
-language: node_js
-node_js:
-  - "0.10"
+language: go
+go:
+  - "1.11.x"
+before_install:
+  - "sudo apt-get update"
+  - "sudo apt-get install -y hugo"
 script:
-  - "npm install hexo-cli -g"
-  - "hexo generate"
+  - "hugo"
 after_success:
   - "git clone https://$GH_TOKEN@github.com/qianlifeng/qianlifeng.github.io.git git_deploy"
   - "rm -r git_deploy/*"
