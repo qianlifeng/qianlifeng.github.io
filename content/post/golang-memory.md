@@ -194,84 +194,29 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		return unsafe.Pointer(&zerobase)
 	}
 
-	//协助GC机制，当前G想分配内存，但是发现GC忙不过来的时候，需要协助GC完成一部分的对象扫描工作
-	//这个机制用于防止对象分配太快来不及GC的情况
+	//协助GC机制，当前G想分配内存，但是已经分配了很多的时候，需要协助GC完成一部分的对象扫描工作才能继续申请新的内存
+	//官方将这个比喻成G的信用额度，每个G都有申请内存的信用额度，申请一次少一次。当信用额度小于0的时候，需要给GC“打工”来挣取信用
+	//这个机制用于防止对象分配太快，GC跟不上的情况
 	var assistG *g
 	if gcBlackenEnabled != 0 {
-		// Charge the current user G for this allocation.
 		assistG = getg()
 		if assistG.m.curg != nil {
 			assistG = assistG.m.curg
 		}
-		// Charge the allocation against the G. We'll account
-		// for internal fragmentation at the end of mallocgc.
 		assistG.gcAssistBytes -= int64(size)
-
 		if assistG.gcAssistBytes < 0 {
-			// This G is in debt. Assist the GC to correct
-			// this before allocating. This must happen
-			// before disabling preemption.
 			gcAssistAlloc(assistG)
 		}
 	}
 
-	// Set mp.mallocing to keep from being preempted by GC.
-	mp := acquirem()
-	if mp.mallocing != 0 {
-		throw("malloc deadlock")
-	}
-	if mp.gsignal == getg() {
-		throw("malloc during signal")
-	}
-	mp.mallocing = 1
-
-	shouldhelpgc := false
-	dataSize := size
 	c := gomcache()
-	var x unsafe.Pointer
-	noscan := typ == nil || typ.kind&kindNoPointers != 0
-	if size <= maxSmallSize {
-		if noscan && size < maxTinySize {
-			// Tiny allocator.
-			//
-			// Tiny allocator combines several tiny allocation requests
-			// into a single memory block. The resulting memory block
-			// is freed when all subobjects are unreachable. The subobjects
-			// must be noscan (don't have pointers), this ensures that
-			// the amount of potentially wasted memory is bounded.
-			//
-			// Size of the memory block used for combining (maxTinySize) is tunable.
-			// Current setting is 16 bytes, which relates to 2x worst case memory
-			// wastage (when all but one subobjects are unreachable).
-			// 8 bytes would result in no wastage at all, but provides less
-			// opportunities for combining.
-			// 32 bytes provides more opportunities for combining,
-			// but can lead to 4x worst case wastage.
-			// The best case winning is 8x regardless of block size.
-			//
-			// Objects obtained from tiny allocator must not be freed explicitly.
-			// So when an object will be freed explicitly, we ensure that
-			// its size >= maxTinySize.
-			//
-			// SetFinalizer has a special case for objects potentially coming
-			// from tiny allocator, it such case it allows to set finalizers
-			// for an inner byte of a memory block.
-			//
-			// The main targets of tiny allocator are small strings and
-			// standalone escaping variables. On a json benchmark
-			// the allocator reduces number of allocations by ~12% and
-			// reduces heap size by ~20%.
+	if size <= maxSmallSize {  //需要申请的对象<=32K的时候
+		if noscan && size < maxTinySize { //如果申请的对象不包含指针且申请的内存<16个字节的时候
+			// 微小对象申请流程(主要是一些小字符串)
+
+			// 如果剩余空间足够分配此次内存，则直接从tiny块上分配
 			off := c.tinyoffset
-			// Align tiny pointer for required (conservative) alignment.
-			if size&7 == 0 {
-				off = round(off, 8)
-			} else if size&3 == 0 {
-				off = round(off, 4)
-			} else if size&1 == 0 {
-				off = round(off, 2)
-			}
 			if off+size <= maxTinySize && c.tiny != 0 {
-				// The object fits into existing tiny block.
 				x = unsafe.Pointer(c.tiny + off)
 				c.tinyoffset = off + size
 				c.local_tinyallocs++
@@ -279,7 +224,9 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				releasem(mp)
 				return x
 			}
-			// Allocate a new maxTinySize block.
+
+			// 不够分配的时候则直接从申请一块新的微小内存块
+			// 这里的`nextFreeFast`和`nextFree`用于分配内存，会在后面的代码分析到，这里不展开
 			span := c.alloc[tinySpanClass]
 			v := nextFreeFast(span)
 			if v == 0 {
@@ -288,14 +235,15 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			x = unsafe.Pointer(v)
 			(*[2]uint64)(x)[0] = 0
 			(*[2]uint64)(x)[1] = 0
-			// See if we need to replace the existing tiny block with the new one
-			// based on amount of remaining free space.
+
+			// 如果原来的内存块剩余不多了，或者还没有分配微小内存块，则将本次新分配的内存块设置上去
 			if size < c.tinyoffset || c.tiny == 0 {
 				c.tiny = uintptr(x)
 				c.tinyoffset = size
 			}
 			size = maxTinySize
 		} else {
+			//申请的对象>=16字节 且 <= 32KB
 			var sizeclass uint8
 			if size <= smallSizeMax-8 {
 				sizeclass = size_to_class8[(size+smallSizeDiv-1)/smallSizeDiv]
@@ -315,6 +263,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			}
 		}
 	} else {
+		//大于32KB的对象直接从堆上申请
 		var s *mspan
 		shouldhelpgc = true
 		systemstack(func() {
