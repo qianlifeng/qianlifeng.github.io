@@ -1,11 +1,11 @@
-baseURL = "http://blog.qlf.pw"
+baseURL = "http://blog.qlf.io"
 title = "钱李峰的博客"
 theme = "yinyang"
 disableKinds = ["taxonomy", "taxonomyTerm","section"]
 
 [author]
   name = "Scott Qian"
-  homepage = "https://blog.qlf.pw"
+  homepage = "https://blog.qlf.io"
 
 [params]
 disqus = "scottqian"
