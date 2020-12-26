@@ -15,6 +15,11 @@ tags = [
 features = ["blog"]
 min_version = "0.50"
 
+[params]
+staticPrefix = ""
+# extraCSSFiles = ["css/foo.css", "css/bar.css"]
+extraCSSFiles = []
+
 [author]
   name = "Joway Wang"
   homepage = "https://joway.io"

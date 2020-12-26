@@ -1,0 +1,9 @@
+title: 钱李峰的博客
+baseURL: 'https://blog.qlf.io'
+theme: yinyang
+params:
+  disqus: scottqian
+  headTitle: Scott Qian
+  socials:
+    - name: Github
+      link: 'https://github.com/qianlifeng'

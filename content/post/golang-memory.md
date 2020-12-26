@@ -1,7 +1,6 @@
 ---
 title: Golang内存分配
 date: 2018-12-01 22:11:17
-tags: [Golang]
 draft: true
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 打包python使其成为单文件可执行程序
 date: 2013-12-18 18:15:17
-tags: [python]
 ---
 
 本文介绍了如何使用 pyinstaller 打包 python 程序，使其成为 window 下的单个可执行 exe 文件。

@@ -1,7 +1,6 @@
 ---
 title: python设置windows桌面壁纸
 date: 2012-05-10 11:25:00
-tags: [python]
 ---
 
 每天一个新壁纸，天天好心情。

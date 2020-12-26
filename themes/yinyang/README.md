@@ -9,6 +9,7 @@
 - minimalist
 - multi-language support
 - [disqus](https://disqus.com) support
+- [SEO Optimization](https://github.com/joway/hugo-theme-yinyang/blob/master/layouts/partials/seo.html)
 
 ## Screenshot
 
@@ -16,9 +17,37 @@
 
 ## Installation
 
-[Install and Use Theme](https://gohugo.io/themes/installing-and-using-themes/)
+From the root of your site:
+
+```shell
+git clone git@github.com:joway/hugo-theme-yinyang.git themes/yinyang
+```
+
+Change `config.toml`:
+
+```toml
+theme = "yinyang"
+```
 
 ## Configuration
+
+### Head Title
+
+```
+[params]
+headTitle = "Joway Wang"
+```
+
+If there is no `headTitle` in params, use `.Site.Author.name`.
+
+### Main section
+
+Set your main section:
+
+```
+[params]
+mainSections = ["posts"]
+```
 
 ### Multi-Language
 
@@ -54,6 +83,21 @@ link = "https://github.com/joway"
 extraHead = '<script src="xxxx.js"></script>'
 ```
 
+### Extra CSS files
+
+```
+[params]
+extraCSSFiles = ["css/foo.css", "css/bar.css"]
+```
+
+### Insert content on every post
+
+```
+[params]
+postHeaderContent = ""
+postFooterContent = "<br/><br/><p>Subscribe：<a target='_blank' href='https://mailchi.mp/a1a0d59e7a19/joway'>Joway's Blog</a></p>"
+```
+
 ### Example
 
 ```
@@ -64,7 +108,7 @@ theme = "yinyang"
 DefaultContentLanguage = "cn"
 
 [author]
-  name = "Joway Wang"
+  name = "Joway"
   homepage = "https://joway.io/"
 
 [languages]
@@ -78,12 +122,18 @@ DefaultContentLanguage = "cn"
     weight = 2
 
 [params]
+mainSections = ["posts"]
+headTitle = "Joway Wang"
 disqus = "joway" # disqus account name
-extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-53624533-8"></script><script src="https://joway.io/analytics.js"></script>'
+extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script>'
 [[params.socials]]
 name = "About Me"
 link = "https://joway.io"
 [[params.socials]]
 name = "Github"
 link = "https://github.com/joway"
+postHeaderContent = ""
+postFooterContent = "<br/><br/><p>Subscribe to：<a target='_blank' href='https://mailchi.mp/a1a0d59e7a19/joway'>Joway's Blog</a></p>"
+# extraCSSFiles = ["css/foo.css", "css/bar.css"]
+extraCSSFiles = []
 ```

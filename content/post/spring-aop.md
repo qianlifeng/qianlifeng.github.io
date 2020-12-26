@@ -1,7 +1,6 @@
 ---
 title: Spring AOP小试
 date: 2015-07-14 20:47:17
-tags: [Java]
 ---
 
 第一次使用 Spring 的 AOP 拦截，感觉还是很强大的嘛^Q^

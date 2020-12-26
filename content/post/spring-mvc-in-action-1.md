@@ -1,7 +1,6 @@
 ---
 title: SpringMVC入门
 date: 2015-06-01 16:06:00
-tags: [Java]
 ---
 
 写一个最小可运行且无 XML 配置（看到大坨大坨的 XML 配置就烦）的 Spring MVC 程序。

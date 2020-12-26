@@ -1,7 +1,6 @@
 ---
 title: 一个Linux命令学习网站
 date: 2013-12-03 18:15:17
-tags: [linux]
 ---
 
 无意中发现一个学习 linux 命令的网站。<a href="http://www.commandlinefu.com/commands/browse/sort-by-votes" target="_blank">http://www.commandlinefu.com/commands/browse/sort-by-votes</a>

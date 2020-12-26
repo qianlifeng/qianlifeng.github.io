@@ -1,6 +1,5 @@
 ---
 title: Nodejs与Java的性能比较
-category: Java
 date: 2015-06-03 15:41:17
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: Android之旅---广播（BroadCast）
 date: 2011-03-06 18:15:17
-tags: [android]
 ---
 
 # 什么是广播

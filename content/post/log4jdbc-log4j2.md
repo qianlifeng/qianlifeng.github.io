@@ -1,7 +1,6 @@
 ---
 title: 使用log4jdbc-log4j2记录完整的SQL执行语句
 date: 2015-11-17 16:55:17
-tags: [java]
 ---
 
 平常在使用 Hibernate 的 show_sql 开关的时候，打印出来的 sql 不是真实的 sql，参数都是?。在调试性能的时候比较蛋疼。利用[log4jdbc-log4f2](https://code.google.com/p/log4jdbc-log4j2/)可以达到打印完整 SQL 的要求，甚至他还可以打印出执行的结果集

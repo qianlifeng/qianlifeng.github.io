@@ -1,7 +1,6 @@
 ---
 title: Nodejs写一个简单爬虫
 date: 2014-03-03 21:04:17
-tags: [nodejs]
 ---
 
 [Nodejs](http://nodejs.org/)最近两年火的不行啊，作为半个前端（好吧，最近写公司项目写的快变成半个前端了，再下去是不是要全端了）我也来试着用 nodejs 写个最简单的爬虫，体验一把 nodejs。

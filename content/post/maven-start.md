@@ -1,7 +1,6 @@
 ---
 title: 使用Maven构建项目
 date: 2015-05-28 15:43:00
-tags: [Java]
 ---
 
 自动化构建，从 Maven 开始~

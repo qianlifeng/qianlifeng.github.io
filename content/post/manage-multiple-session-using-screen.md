@@ -1,7 +1,6 @@
 ---
 title: 用screen管理多个SSH远程会话
 date: 2013-11-24 17:15:17
-tags: [linux]
 ---
 
 有 VPS 的同学应该会经常使用[putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/)进行 SSH 远程连接吧。新开的每个 SSH 都是一个 session，这么做有一个缺点就是如果当你退出的时候，这个 session 中的任务都会跟着退出。于是 screen 来了。
