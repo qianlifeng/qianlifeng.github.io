@@ -1,0 +1,32 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/raspberrypi2/"><link rel=canonical href=https://blog.qlf.io/post/raspberrypi2/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"树莓派2","headline":"树莓派2","description":"买的树莓派 2 终于到啦，这里介绍一下基本的上手准备工作。\n无图无真相，上图 无线网络配置 拿到手第一件事情就是把无线网给配置起来，这样以后就不用网线了。首先通过有线 SSH 上去，然后运行命令：\nlsusb 看看你的无线模块是不是已经被系统识别。如果出现最后一行信息，则说明已成功识别\nBus 001 Device 002: ID 0424:9514 Standard Microsystems Corp. Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. Bus 001 Device 004: ID 0bda:8176 Realtek Semiconductor Corp. RTL8188CUS 802.11n WLAN Adapter 然后编辑如下文件\nsudo vi \/etc\/network\/interfaces 在这个文件里可以配置网络相关的配置。我这里是使用的静态 IP，这样方便以后 SSH 上去\nauto lo iface lo inet loopback iface eth0 inet dhcp auto wlan0 allow-hotplug wlan0 iface wlan0 inet static wpa-ssid \u0026quot;网络名（大小写敏感）\u0026quot; wpa-psk \u0026quot;密码\u0026quot; address 192.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2015","datePublished":"2015-03-13 19:30:42 \u002b0000 UTC","dateModified":"2015-03-13 19:30:42 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/raspberrypi2\/","keywords":[]}</script><title>树莓派2 - 钱李峰的博客</title><meta property="og:title" content="树莓派2 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="买的树莓派 2 终于到啦，这里介绍一下基本的上手准备工作。
+无图无真相，上图 无线网络配置 拿到手第一件事情就是把无线网给配置起来，这样以后就不用网线了。首先通过有线 SSH 上去，然后运行命令：
+lsusb 看看你的无线模块是不是已经被系统识别。如果出现最后一行信息，则说明已成功识别
+Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp. Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. Bus 001 Device 004: ID 0bda:8176 Realtek Semiconductor Corp. RTL8188CUS 802.11n WLAN Adapter 然后编辑如下文件
+sudo vi /etc/network/interfaces 在这个文件里可以配置网络相关的配置。我这里是使用的静态 IP，这样方便以后 SSH 上去
+auto lo iface lo inet loopback iface eth0 inet dhcp auto wlan0 allow-hotplug wlan0 iface wlan0 inet static wpa-ssid &#34;网络名（大小写敏感）&#34; wpa-psk &#34;密码&#34; address 192."><meta name=description content="买的树莓派 2 终于到啦，这里介绍一下基本的上手准备工作。
+无图无真相，上图 无线网络配置 拿到手第一件事情就是把无线网给配置起来，这样以后就不用网线了。首先通过有线 SSH 上去，然后运行命令：
+lsusb 看看你的无线模块是不是已经被系统识别。如果出现最后一行信息，则说明已成功识别
+Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp. Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. Bus 001 Device 004: ID 0bda:8176 Realtek Semiconductor Corp. RTL8188CUS 802.11n WLAN Adapter 然后编辑如下文件
+sudo vi /etc/network/interfaces 在这个文件里可以配置网络相关的配置。我这里是使用的静态 IP，这样方便以后 SSH 上去
+auto lo iface lo inet loopback iface eth0 inet dhcp auto wlan0 allow-hotplug wlan0 iface wlan0 inet static wpa-ssid &#34;网络名（大小写敏感）&#34; wpa-psk &#34;密码&#34; address 192."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>树莓派2</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2015-03-13 19:30:42 UTC">13 Mar 2015</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>买的树莓派 2 终于到啦，这里介绍一下基本的上手准备工作。</p><p>无图无真相，上图</p><h1 id=无线网络配置>无线网络配置</h1><p>拿到手第一件事情就是把无线网给配置起来，这样以后就不用网线了。首先通过有线 SSH 上去，然后运行命令：</p><pre><code>lsusb
+</code></pre><p>看看你的无线模块是不是已经被系统识别。如果出现最后一行信息，则说明已成功识别</p><pre><code>Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp.
+Bus 001 Device 004: ID 0bda:8176 Realtek Semiconductor Corp. RTL8188CUS 802.11n WLAN Adapter
+</code></pre><p>然后编辑如下文件</p><pre><code>sudo vi /etc/network/interfaces
+</code></pre><p>在这个文件里可以配置网络相关的配置。我这里是使用的静态 IP，这样方便以后 SSH 上去</p><pre><code>auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet static
+
+wpa-ssid &quot;网络名（大小写敏感）&quot;
+wpa-psk &quot;密码&quot;
+address 192.168.1.200
+netmask 255.255.255.0
+gateway 192.168.1.1
+</code></pre><p>配置成功后，重启树莓派即可</p></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

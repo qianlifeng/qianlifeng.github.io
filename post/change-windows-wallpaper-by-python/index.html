@@ -1,0 +1,232 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/change-windows-wallpaper-by-python/"><link rel=canonical href=https://blog.qlf.io/post/change-windows-wallpaper-by-python/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"python设置windows桌面壁纸","headline":"python设置windows桌面壁纸","description":"每天一个新壁纸，天天好心情。\n# -*- coding: UTF-8 -*- from __future__ import unicode_literals import Image import datetime import win32gui,win32con,win32api import re from HttpWrapper import SendRequest StoreFolder = \u0026quot;c:\\\\dayImage\u0026quot; def setWallpaperFromBMP(imagepath): k = win32api.RegOpenKeyEx(win32con.HKEY_CURRENT_USER,\u0026quot;Control Panel\\\\Desktop\u0026quot;,0,win32con.KEY_SET_VALUE) win32api.RegSetValueEx(k, \u0026quot;WallpaperStyle\u0026quot;, 0, win32con.REG_SZ, \u0026quot;2\u0026quot;) #2拉伸适应桌面,0桌面居中 win32api.RegSetValueEx(k, \u0026quot;TileWallpaper\u0026quot;, 0, win32con.REG_SZ, \u0026quot;0\u0026quot;) win32gui.SystemParametersInfo(win32con.SPI_SETDESKWALLPAPER,imagepath, 1\u002b2) def setWallPaper(imagePath): \u0026quot;\u0026quot;\u0026quot; Given a path to an image, convert it to bmp and set it as wallpaper \u0026quot;\u0026quot;\u0026quot; bmpImage = Image.open(imagePath) newPath = StoreFolder \u002b \u0027\\\\mywallpaper.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2012","datePublished":"2012-05-10 11:25:00 \u002b0000 UTC","dateModified":"2012-05-10 11:25:00 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/change-windows-wallpaper-by-python\/","keywords":[]}</script><title>python设置windows桌面壁纸 - 钱李峰的博客</title><meta property="og:title" content="python设置windows桌面壁纸 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="每天一个新壁纸，天天好心情。
+# -*- coding: UTF-8 -*- from __future__ import unicode_literals import Image import datetime import win32gui,win32con,win32api import re from HttpWrapper import SendRequest StoreFolder = &#34;c:\\dayImage&#34; def setWallpaperFromBMP(imagepath): k = win32api.RegOpenKeyEx(win32con.HKEY_CURRENT_USER,&#34;Control Panel\\Desktop&#34;,0,win32con.KEY_SET_VALUE) win32api.RegSetValueEx(k, &#34;WallpaperStyle&#34;, 0, win32con.REG_SZ, &#34;2&#34;) #2拉伸适应桌面,0桌面居中 win32api.RegSetValueEx(k, &#34;TileWallpaper&#34;, 0, win32con.REG_SZ, &#34;0&#34;) win32gui.SystemParametersInfo(win32con.SPI_SETDESKWALLPAPER,imagepath, 1+2) def setWallPaper(imagePath): &#34;&#34;&#34; Given a path to an image, convert it to bmp and set it as wallpaper &#34;&#34;&#34; bmpImage = Image.open(imagePath) newPath = StoreFolder + '\\mywallpaper."><meta name=description content="每天一个新壁纸，天天好心情。
+# -*- coding: UTF-8 -*- from __future__ import unicode_literals import Image import datetime import win32gui,win32con,win32api import re from HttpWrapper import SendRequest StoreFolder = &#34;c:\\dayImage&#34; def setWallpaperFromBMP(imagepath): k = win32api.RegOpenKeyEx(win32con.HKEY_CURRENT_USER,&#34;Control Panel\\Desktop&#34;,0,win32con.KEY_SET_VALUE) win32api.RegSetValueEx(k, &#34;WallpaperStyle&#34;, 0, win32con.REG_SZ, &#34;2&#34;) #2拉伸适应桌面,0桌面居中 win32api.RegSetValueEx(k, &#34;TileWallpaper&#34;, 0, win32con.REG_SZ, &#34;0&#34;) win32gui.SystemParametersInfo(win32con.SPI_SETDESKWALLPAPER,imagepath, 1+2) def setWallPaper(imagePath): &#34;&#34;&#34; Given a path to an image, convert it to bmp and set it as wallpaper &#34;&#34;&#34; bmpImage = Image.open(imagePath) newPath = StoreFolder + '\\mywallpaper."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>python设置windows桌面壁纸</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2012-05-10 11:25:00 UTC">10 May 2012</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>每天一个新壁纸，天天好心情。</p><pre><code># -*- coding: UTF-8 -*-
+
+from __future__ import unicode_literals
+import Image
+import datetime
+import win32gui,win32con,win32api
+import re
+from HttpWrapper import SendRequest
+
+StoreFolder = &quot;c:\\dayImage&quot;
+
+def setWallpaperFromBMP(imagepath):
+    k = win32api.RegOpenKeyEx(win32con.HKEY_CURRENT_USER,&quot;Control Panel\\Desktop&quot;,0,win32con.KEY_SET_VALUE)
+    win32api.RegSetValueEx(k, &quot;WallpaperStyle&quot;, 0, win32con.REG_SZ, &quot;2&quot;) #2拉伸适应桌面,0桌面居中
+    win32api.RegSetValueEx(k, &quot;TileWallpaper&quot;, 0, win32con.REG_SZ, &quot;0&quot;)
+    win32gui.SystemParametersInfo(win32con.SPI_SETDESKWALLPAPER,imagepath, 1+2)
+
+def setWallPaper(imagePath):
+    &quot;&quot;&quot;
+    Given a path to an image, convert it to bmp and set it as wallpaper
+    &quot;&quot;&quot;
+    bmpImage = Image.open(imagePath)
+    newPath = StoreFolder + '\\mywallpaper.bmp'
+    bmpImage.save(newPath, &quot;BMP&quot;)
+    setWallpaperFromBMP(newPath)
+
+def getPicture():
+    url = &quot;http://photography.nationalgeographic.com/photography/photo-of-the-day/&quot;
+    h = SendRequest(url)
+    if h.GetSource():
+        r = re.findall('&lt;div class=&quot;download_link&quot;&gt;&lt;a href=&quot;(.*?)&quot;&gt;Download',h.GetSource())
+        if r:
+            return SendRequest(r[0]).GetSource()
+        else:
+            print &quot;解析图片地址出错，请检查正则表达式是否正确&quot;
+            return None
+
+
+def setWallpaperOfToday():
+    img = getPicture()
+    if img:
+        path = StoreFolder + &quot;\\%s.jpg&quot; % datetime.date.today()
+        f = open(path,&quot;wb&quot;)
+        f.write(img)
+        f.close()
+        setWallPaper(path)
+
+setWallpaperOfToday()
+print 'Wallpaper set ok!'
+</code></pre><p>其中的 httpwrapper 是我写的一个 http 访问的封装：</p><pre><code>#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+#-------------------------------------------------------------------------------
+# Name: 对http访问的封装
+#
+# Author: qianlifeng
+#
+# Created: 10-02-2012
+#-------------------------------------------------------------------------------
+
+import base64
+import urllib
+import urllib2
+import time
+import re
+import sys
+
+class SendRequest:
+  &quot;&quot;&quot;
+  网页请求增强类
+  SendRequest('http://xxx.com',data=dict, type='POST', auth='base',user='xxx', password='xxx')
+  &quot;&quot;&quot;
+  def __init__(self, url, data=None, method='GET', auth=None, user=None, password=None, cookie = None, **header):
+    &quot;&quot;&quot;
+    url: 请求的url，不能为空
+    date: 需要post的内容，必须是字典
+    method: Get 或者 Post，默认为Get
+    auth: 'base' 或者 'cookie'
+    user: 用于base认证的用户名
+    password: 用于base认证的密码
+    cookie: 请求附带的cookie，一般用于登录后的认证
+    其他头信息:
+    e.g. referer='www.sina.com.cn'
+    &quot;&quot;&quot;
+
+    self.url = url
+    self.data = data
+    self.method = method
+    self.auth = auth
+    self.user = user
+    self.password = password
+    self.cookie = cookie
+
+    if 'referer' in header:
+        self.referer = header[referer]
+    else:
+        self.referer = None
+
+    if 'user-agent' in header:
+        self.user_agent = header[user-agent]
+    else:
+## self.user_agent = 'Mozilla/5.0 (Windows NT 5.1; rv:8.0) Gecko/20100101 Firefox/8.0'
+        self.user_agent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16'
+
+    self.__SetupRequest()
+    self.__SendRequest()
+
+  def __SetupRequest(self):
+
+    if self.url is None or self.url == '':
+        raise 'url 不能为空!'
+
+    #访问方式设置
+    if self.method.lower() == 'post':
+        self.Req = urllib2.Request(self.url, urllib.urlencode(self.data))
+
+    elif self.method.lower() == 'get':
+        if self.data == None:
+            self.Req = urllib2.Request(self.url)
+        else:
+            self.Req = urllib2.Request(self.url + '?' + urllib.urlencode(self.data))
+
+    #设置认证信息
+    if self.auth == 'base':
+        if self.user == None or self.password == None:
+            raise 'The user or password was not given!'
+        else:
+            auth_info = base64.encodestring(self.user + ':' + self.password).replace('\n','')
+            auth_info = 'Basic ' + auth_info
+            self.Req.add_header(&quot;Authorization&quot;, auth_info)
+
+    elif self.auth == 'cookie':
+        if self.cookie == None:
+            raise 'The cookie was not given!'
+        else:
+            self.Req.add_header(&quot;Cookie&quot;, self.cookie)
+
+
+    if self.referer:
+        self.Req.add_header('referer', self.referer)
+    if self.user_agent:
+        self.Req.add_header('user-agent', self.user_agent)
+
+
+  def __SendRequest(self):
+
+    try:
+      self.Res = urllib2.urlopen(self.Req)
+      self.source = self.Res.read()
+      self.code = self.Res.getcode()
+      self.head_dict = self.Res.info().dict
+      self.Res.close()
+    except:
+      print &quot;Error: HttpWrapper=&gt;_SendRequest &quot;, sys.exc_info()[1]
+
+
+  def GetResponseCode(self):
+    &quot;&quot;&quot;
+    得到服务器返回的状态码(200表示成功,404网页不存在)
+    &quot;&quot;&quot;
+    return self.code
+
+  def GetSource(self):
+    &quot;&quot;&quot;
+    得到网页源代码，需要解码后在使用
+    &quot;&quot;&quot;
+    if &quot;source&quot; in dir(self):
+        return self.source
+    return u''
+
+  def GetHeaderInfo(self):
+    &quot;&quot;&quot;
+    u'得到响应头信息'
+    &quot;&quot;&quot;
+    return self.head_dict
+
+  def GetCookie(self):
+    &quot;&quot;&quot;
+    得到服务器返回的Cookie，一般用于登录后续操作
+    &quot;&quot;&quot;
+    if 'set-cookie' in self.head_dict:
+      return self.head_dict['set-cookie']
+    else:
+      return None
+
+  def GetContentType(self):
+    &quot;&quot;&quot;
+    得到返回类型
+    &quot;&quot;&quot;
+    if 'content-type' in self.head_dict:
+      return self.head_dict['content-type']
+    else:
+      return None
+
+  def GetCharset(self):
+    &quot;&quot;&quot;
+    尝试得到网页的编码
+    如果得不到返回None
+    &quot;&quot;&quot;
+    contentType = self.GetContentType()
+    if contentType is not None:
+        index = contentType.find(&quot;charset&quot;)
+        if index &gt; 0:
+           return contentType[index+8:]
+    return None
+
+  def GetExpiresTime(self):
+    &quot;&quot;&quot;
+    得到网页过期时间
+    &quot;&quot;&quot;
+    if 'expires' in self.head_dict:
+      return self.head_dict['expires']
+    else:
+      return None
+
+  def GetServerName(self):
+    &quot;&quot;&quot;
+    得到服务器名字
+    &quot;&quot;&quot;
+    if 'server' in self.head_dict:
+      return self.head_dict['server']
+    else:
+      return None
+
+__all__ = [SendRequest,]
+
+if __name__ == '__main__':
+    b = SendRequest(&quot;http://www.baidu.com&quot;)
+    print b.GetSource()
+</code></pre></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

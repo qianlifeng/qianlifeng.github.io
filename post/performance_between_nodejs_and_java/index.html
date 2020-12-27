@@ -1,0 +1,185 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/performance_between_nodejs_and_java/"><link rel=canonical href=https://blog.qlf.io/post/performance_between_nodejs_and_java/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"Nodejs与Java的性能比较","headline":"Nodejs与Java的性能比较","description":"最近遇到一个项目需要提供这样一种 RESTful 的查询接口：\n 接口比较独立，内部没有复杂的业务逻辑，基本就是查询数据库 接口查询量会非常大，所以希望能有很好的吞吐量  因为接口比较独立，没有业务逻辑负担。所以我们可以选择的方向就比较多，其中两个方向是 Nodejs 和 Java。Java 是目前项目的主要开发语言，考虑 Nodejs 是看中了他的非阻塞的异步 IO。 而本篇文章的目的就是模拟这两种语言在我们真实使用场景下的表现。\n吞吐量与 PV 开始之前，我们需要先了解几个名词，这对我们后面分析比较数据会有一定帮助。\n 吞吐量：每秒钟完成的请求数。 PV：PV 是 page view 的简写。PV 是指页面的访问次数，每打开或刷新一次页面，就算做一个 pv。  他们之间存在如下的简单换算：\n每台服务器每秒处理请求的数量=((80% × 总PV量)\/(24小时 × 60分 × 60秒 × 40%)) \/ 服务器数量。 其中关键的参数是 80%、40%。表示一天中有 80%的请求发生在一天的 40%的时间内。24 小时的 40%是 9.6 小时，有 80%的请求发生一天的 9.6 个小时当中。 所以说，如果你的网站每秒能处理 600 个请求，那么你大概能抗住每日 2500W 的 PV 请求。当然这里只是理想情况下的简单换算，真实环境可能会与这个值有出入。\n一些规则 在进行比较之前，我们需要先确定一些规则：\n 双方尽量使用最原生最简单的实现，排除第三方库的性能干扰。 在同一台机器上进行测试（CentOS, 130G 内存，Xeno E5-2640 v3 @ 2.6GHz 32 核） 对同一数据集进行查询 (包含 200W 记录的表) 测试流程为：请求来了之后，程序会从 10 个候选的 ID 中随机抽取一个进行数据库查询，并将查询的结果返回到页面 测试环境都是默认配置  准备数据库 首先，使用如下 python 脚本 fake 出我们的测试数据。我这里生成了一张 200W 行数据的表。后面就针对该表进行查询","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2015","datePublished":"2015-06-03 15:41:17 \u002b0000 UTC","dateModified":"2015-06-03 15:41:17 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/performance_between_nodejs_and_java\/","keywords":[]}</script><title>Nodejs与Java的性能比较 - 钱李峰的博客</title><meta property="og:title" content="Nodejs与Java的性能比较 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="最近遇到一个项目需要提供这样一种 RESTful 的查询接口：
+ 接口比较独立，内部没有复杂的业务逻辑，基本就是查询数据库 接口查询量会非常大，所以希望能有很好的吞吐量  因为接口比较独立，没有业务逻辑负担。所以我们可以选择的方向就比较多，其中两个方向是 Nodejs 和 Java。Java 是目前项目的主要开发语言，考虑 Nodejs 是看中了他的非阻塞的异步 IO。 而本篇文章的目的就是模拟这两种语言在我们真实使用场景下的表现。
+吞吐量与 PV 开始之前，我们需要先了解几个名词，这对我们后面分析比较数据会有一定帮助。
+ 吞吐量：每秒钟完成的请求数。 PV：PV 是 page view 的简写。PV 是指页面的访问次数，每打开或刷新一次页面，就算做一个 pv。  他们之间存在如下的简单换算：
+每台服务器每秒处理请求的数量=((80% × 总PV量)/(24小时 × 60分 × 60秒 × 40%)) / 服务器数量。 其中关键的参数是 80%、40%。表示一天中有 80%的请求发生在一天的 40%的时间内。24 小时的 40%是 9.6 小时，有 80%的请求发生一天的 9.6 个小时当中。 所以说，如果你的网站每秒能处理 600 个请求，那么你大概能抗住每日 2500W 的 PV 请求。当然这里只是理想情况下的简单换算，真实环境可能会与这个值有出入。
+一些规则 在进行比较之前，我们需要先确定一些规则：
+ 双方尽量使用最原生最简单的实现，排除第三方库的性能干扰。 在同一台机器上进行测试（CentOS, 130G 内存，Xeno E5-2640 v3 @ 2.6GHz 32 核） 对同一数据集进行查询 (包含 200W 记录的表) 测试流程为：请求来了之后，程序会从 10 个候选的 ID 中随机抽取一个进行数据库查询，并将查询的结果返回到页面 测试环境都是默认配置  准备数据库 首先，使用如下 python 脚本 fake 出我们的测试数据。我这里生成了一张 200W 行数据的表。后面就针对该表进行查询"><meta name=description content="最近遇到一个项目需要提供这样一种 RESTful 的查询接口：
+ 接口比较独立，内部没有复杂的业务逻辑，基本就是查询数据库 接口查询量会非常大，所以希望能有很好的吞吐量  因为接口比较独立，没有业务逻辑负担。所以我们可以选择的方向就比较多，其中两个方向是 Nodejs 和 Java。Java 是目前项目的主要开发语言，考虑 Nodejs 是看中了他的非阻塞的异步 IO。 而本篇文章的目的就是模拟这两种语言在我们真实使用场景下的表现。
+吞吐量与 PV 开始之前，我们需要先了解几个名词，这对我们后面分析比较数据会有一定帮助。
+ 吞吐量：每秒钟完成的请求数。 PV：PV 是 page view 的简写。PV 是指页面的访问次数，每打开或刷新一次页面，就算做一个 pv。  他们之间存在如下的简单换算：
+每台服务器每秒处理请求的数量=((80% × 总PV量)/(24小时 × 60分 × 60秒 × 40%)) / 服务器数量。 其中关键的参数是 80%、40%。表示一天中有 80%的请求发生在一天的 40%的时间内。24 小时的 40%是 9.6 小时，有 80%的请求发生一天的 9.6 个小时当中。 所以说，如果你的网站每秒能处理 600 个请求，那么你大概能抗住每日 2500W 的 PV 请求。当然这里只是理想情况下的简单换算，真实环境可能会与这个值有出入。
+一些规则 在进行比较之前，我们需要先确定一些规则：
+ 双方尽量使用最原生最简单的实现，排除第三方库的性能干扰。 在同一台机器上进行测试（CentOS, 130G 内存，Xeno E5-2640 v3 @ 2.6GHz 32 核） 对同一数据集进行查询 (包含 200W 记录的表) 测试流程为：请求来了之后，程序会从 10 个候选的 ID 中随机抽取一个进行数据库查询，并将查询的结果返回到页面 测试环境都是默认配置  准备数据库 首先，使用如下 python 脚本 fake 出我们的测试数据。我这里生成了一张 200W 行数据的表。后面就针对该表进行查询"><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>Nodejs与Java的性能比较</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2015-06-03 15:41:17 UTC">03 Jun 2015</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>最近遇到一个项目需要提供这样一种 RESTful 的查询接口：</p><ol><li>接口比较独立，内部没有复杂的业务逻辑，基本就是查询数据库</li><li>接口查询量会非常大，所以希望能有很好的吞吐量</li></ol><p>因为接口比较独立，没有业务逻辑负担。所以我们可以选择的方向就比较多，其中两个方向是 Nodejs 和 Java。Java 是目前项目的主要开发语言，考虑 Nodejs 是看中了他的非阻塞的异步 IO。
+而本篇文章的目的就是模拟这两种语言在我们真实使用场景下的表现。</p><h1 id=吞吐量与-pv>吞吐量与 PV</h1><p>开始之前，我们需要先了解几个名词，这对我们后面分析比较数据会有一定帮助。</p><ul><li><strong>吞吐量</strong>：每秒钟完成的请求数。</li><li><strong>PV</strong>：PV 是 page view 的简写。PV 是指页面的访问次数，每打开或刷新一次页面，就算做一个 pv。</li></ul><p>他们之间存在如下的简单换算：</p><pre><code>每台服务器每秒处理请求的数量=((80% × 总PV量)/(24小时 × 60分 × 60秒 × 40%)) / 服务器数量。
+</code></pre><p>其中关键的参数是 80%、40%。表示一天中有 80%的请求发生在一天的 40%的时间内。24 小时的 40%是 9.6 小时，有 80%的请求发生一天的 9.6 个小时当中。
+所以说，如果你的网站每秒能处理 600 个请求，那么你大概能抗住每日 2500W 的 PV 请求。当然这里只是理想情况下的简单换算，真实环境可能会与这个值有出入。</p><h1 id=一些规则>一些规则</h1><p>在进行比较之前，我们需要先确定一些规则：</p><ul><li>双方尽量使用最原生最简单的实现，排除第三方库的性能干扰。</li><li>在同一台机器上进行测试（CentOS, 130G 内存，Xeno E5-2640 v3 @ 2.6GHz 32 核）</li><li>对同一数据集进行查询 (包含 200W 记录的表)</li><li>测试流程为：请求来了之后，程序会从 10 个候选的 ID 中随机抽取一个进行数据库查询，并将查询的结果返回到页面</li><li>测试环境都是默认配置</li></ul><h1 id=准备数据库>准备数据库</h1><p>首先，使用如下 python 脚本 fake 出我们的测试数据。我这里生成了一张 200W 行数据的表。后面就针对该表进行查询</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># encoding: utf-8</span>
+<span style=color:#75715e>#!/usr/bin/python</span>
+
+<span style=color:#f92672>import</span> MySQLdb
+<span style=color:#f92672>import</span> uuid
+
+
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>InsertRow</span>(db):
+    cursor <span style=color:#f92672>=</span> db<span style=color:#f92672>.</span>cursor()
+    sql <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;insert into purch_sku_master (mem_id,mem_code,sku_id,sku_code,item,sku_name,sku_abbr) values (&#39;main&#39;,&#39;main&#39;,&#39;sku-{}&#39;,&#39;SKU0000009837&#39;,&#39;ITEM{}&#39;,&#39;卫衣外套_MQF1213020_瓷蓝_{}&#39;,&#39;半开襟线衫{}&#39;);&#34;</span><span style=color:#f92672>.</span>format(
+        str(uuid<span style=color:#f92672>.</span>uuid4()),
+        str(uuid<span style=color:#f92672>.</span>uuid4()),
+        str(uuid<span style=color:#f92672>.</span>uuid4()),
+        str(uuid<span style=color:#f92672>.</span>uuid4())
+    )
+    cursor<span style=color:#f92672>.</span>execute(sql)
+
+
+db <span style=color:#f92672>=</span> MySQLdb<span style=color:#f92672>.</span>connect(<span style=color:#e6db74>&#34;localhost&#34;</span>,<span style=color:#e6db74>&#34;&#34;</span>,<span style=color:#e6db74>&#34;&#34;</span>,<span style=color:#e6db74>&#34;test&#34;</span> )
+<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> xrange(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>2000000</span>):
+    <span style=color:#66d9ef>print</span> i
+    InsertRow(db)
+    <span style=color:#66d9ef>if</span> i <span style=color:#f92672>%</span> <span style=color:#ae81ff>1000</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+        db<span style=color:#f92672>.</span>commit()
+db<span style=color:#f92672>.</span>commit()
+db<span style=color:#f92672>.</span>close()
+</code></pre></div><h1 id=nodejs>Nodejs</h1><p>接着编写 Nodejs 端的测试代码，先看目录结构：</p><pre><code>--nodejs
+    --package.json
+    --httpserver.js
+</code></pre><p><code>package.json</code>里面定义了该项目的一些信息与依赖，因为我们使用的是 mysql 数据库，所以这里会依赖一个 mysql 的包：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
+  <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;test&#34;</span>,
+  <span style=color:#f92672>&#34;version&#34;</span>: <span style=color:#e6db74>&#34;0.1.0&#34;</span>,
+  <span style=color:#f92672>&#34;description&#34;</span>: <span style=color:#e6db74>&#34;A testing package&#34;</span>,
+  <span style=color:#f92672>&#34;dependencies&#34;</span>: {
+    <span style=color:#f92672>&#34;mysql&#34;</span>: <span style=color:#e6db74>&#34;2.7.0&#34;</span>
+  },
+  <span style=color:#f92672>&#34;main&#34;</span>: <span style=color:#e6db74>&#34;index&#34;</span>,
+  <span style=color:#f92672>&#34;scripts&#34;</span>: {
+    <span style=color:#f92672>&#34;start&#34;</span>: <span style=color:#e6db74>&#34;node HttpServer.js&#34;</span>
+  }
+}
+</code></pre></div><p>下面是 Nodejs 的测试代码：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>http</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>require</span>(<span style=color:#e6db74>&#34;http&#34;</span>);
+<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>mysql</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>require</span>(<span style=color:#e6db74>&#34;mysql&#34;</span>);
+<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>connection</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>mysql</span>.<span style=color:#a6e22e>createConnection</span>({
+  <span style=color:#a6e22e>host</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;localhost&#34;</span>,
+  <span style=color:#a6e22e>user</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span>,
+  <span style=color:#a6e22e>password</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;&#34;</span>,
+  <span style=color:#a6e22e>database</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;test&#34;</span>
+});
+
+<span style=color:#a6e22e>http</span>
+  .<span style=color:#a6e22e>createServer</span>(<span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>request</span>, <span style=color:#a6e22e>response</span>) {
+    <span style=color:#a6e22e>query</span>(<span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>rows</span>) {
+      <span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>writeHead</span>(<span style=color:#ae81ff>200</span>, { <span style=color:#e6db74>&#34;Content-Type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;text/plain&#34;</span> });
+      <span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>write</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>sku_id</span>);
+      <span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>end</span>();
+    });
+  })
+  .<span style=color:#a6e22e>listen</span>(<span style=color:#ae81ff>8888</span>);
+
+<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>query</span>(<span style=color:#a6e22e>callback</span>) {
+  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>skus</span> <span style=color:#f92672>=</span> [
+    <span style=color:#e6db74>&#34;sku-0000bcd5-c1f7-4460-aaf8-7ee1ab10d409&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-000f1583-8026-407f-92e2-b6b67c5447e5&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-000fa572-8f67-4e37-9f2f-52f9bb82a229&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-0017c850-818b-4bb8-922b-59988b279679&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-0019ca10-fdb8-490c-a1c7-971b840d0d5f&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-0019ef1e-0363-41b8-87df-f0f4f51453d0&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-001a1dd6-cc26-4bfe-a81c-ee952bf024d1&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-001a475f-45df-4df2-b8bb-643e022b4c72&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-001ab267-18c6-43b4-915f-104eef32c336&#34;</span>,
+    <span style=color:#e6db74>&#34;sku-0020b18b-8e09-4d3d-8920-97b27e2d11c4&#34;</span>
+  ];
+
+  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>sku</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>skus</span>[Math.<span style=color:#a6e22e>floor</span>(Math.<span style=color:#a6e22e>random</span>() <span style=color:#f92672>*</span> <span style=color:#ae81ff>6</span>) <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>];
+  <span style=color:#a6e22e>connection</span>.<span style=color:#a6e22e>query</span>(<span style=color:#e6db74>&#34;select * from purch_sku_master where sku_id = &#39;&#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>sku</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;&#39;&#34;</span>, <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>err</span>, <span style=color:#a6e22e>rows</span>, <span style=color:#a6e22e>fields</span>) {
+    <span style=color:#a6e22e>callback</span>(<span style=color:#a6e22e>rows</span>);
+  });
+}
+</code></pre></div><h1 id=java>Java</h1><p>根据第一条规则，我这里没有使用 SpringMVC 类似的框架，而是直接使用了 Servlet 进行测试。直接看我实现的 Servlet 类：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> com.scottqian.javaPerformanceTest<span style=color:#f92672>;</span>
+
+<span style=color:#f92672>import</span> java.io.IOException<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.io.PrintWriter<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.sql.Connection<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.sql.DriverManager<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.sql.ResultSet<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.sql.Statement<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.util.ArrayList<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.util.List<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.util.Random<span style=color:#f92672>;</span>
+
+<span style=color:#f92672>import</span> javax.servlet.http.HttpServlet<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> javax.servlet.http.HttpServletRequest<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> javax.servlet.http.HttpServletResponse<span style=color:#f92672>;</span>
+
+<span style=color:#a6e22e>@SuppressWarnings</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;serial&#34;</span><span style=color:#f92672>)</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ServletDemo</span> <span style=color:#66d9ef>extends</span> HttpServlet <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>private</span> List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;</span> skus<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>ServletDemo</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        skus <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;();</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-0000bcd5-c1f7-4460-aaf8-7ee1ab10d409&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-000f1583-8026-407f-92e2-b6b67c5447e5&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-000fa572-8f67-4e37-9f2f-52f9bb82a229&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-0017c850-818b-4bb8-922b-59988b279679&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-0019ca10-fdb8-490c-a1c7-971b840d0d5f&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-0019ef1e-0363-41b8-87df-f0f4f51453d0&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-001a1dd6-cc26-4bfe-a81c-ee952bf024d1&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-001a475f-45df-4df2-b8bb-643e022b4c72&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-001ab267-18c6-43b4-915f-104eef32c336&#34;</span><span style=color:#f92672>);</span>
+        skus<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku-0020b18b-8e09-4d3d-8920-97b27e2d11c4&#34;</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>private</span> String <span style=color:#a6e22e>getRandomSku</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> skus<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>randInt<span style=color:#f92672>(</span>0<span style=color:#f92672>,</span> 9<span style=color:#f92672>));</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>randInt</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> min<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> max<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Random rand <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Random<span style=color:#f92672>();</span>
+        <span style=color:#66d9ef>return</span> rand<span style=color:#f92672>.</span><span style=color:#a6e22e>nextInt</span><span style=color:#f92672>((</span>max <span style=color:#f92672>-</span> min<span style=color:#f92672>)</span> <span style=color:#f92672>+</span> 1<span style=color:#f92672>)</span> <span style=color:#f92672>+</span> min<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doGet</span><span style=color:#f92672>(</span>HttpServletRequest req<span style=color:#f92672>,</span> HttpServletResponse res<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> IOException <span style=color:#f92672>{</span>
+        PrintWriter pw <span style=color:#f92672>=</span> res<span style=color:#f92672>.</span><span style=color:#a6e22e>getWriter</span><span style=color:#f92672>();</span>
+        res<span style=color:#f92672>.</span><span style=color:#a6e22e>setContentType</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;text/plain&#34;</span><span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+            Class<span style=color:#f92672>.</span><span style=color:#a6e22e>forName</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;com.mysql.jdbc.Driver&#34;</span><span style=color:#f92672>);</span>
+            Connection con <span style=color:#f92672>=</span> DriverManager<span style=color:#f92672>.</span><span style=color:#a6e22e>getConnection</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;jdbc:mysql://localhost:3306/test&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>);</span>
+            Statement stmt <span style=color:#f92672>=</span> con<span style=color:#f92672>.</span><span style=color:#a6e22e>createStatement</span><span style=color:#f92672>();</span>
+
+            String sql <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;select * from purch_sku_master where sku_id = &#39;&#34;</span> <span style=color:#f92672>+</span> getRandomSku<span style=color:#f92672>()</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;&#39;&#34;</span><span style=color:#f92672>;</span>
+
+            ResultSet rs <span style=color:#f92672>=</span> stmt<span style=color:#f92672>.</span><span style=color:#a6e22e>executeQuery</span><span style=color:#f92672>(</span>sql<span style=color:#f92672>);</span>
+            <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>rs<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+                pw<span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span>rs<span style=color:#f92672>.</span><span style=color:#a6e22e>getString</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;sku_id&#34;</span><span style=color:#f92672>));</span>
+            <span style=color:#f92672>}</span>
+
+            stmt<span style=color:#f92672>.</span><span style=color:#a6e22e>close</span><span style=color:#f92672>();</span>
+            con<span style=color:#f92672>.</span><span style=color:#a6e22e>close</span><span style=color:#f92672>();</span>
+        <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>Exception e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            pw<span style=color:#f92672>.</span><span style=color:#a6e22e>write</span><span style=color:#f92672>(</span>e<span style=color:#f92672>.</span><span style=color:#a6e22e>getMessage</span><span style=color:#f92672>());</span>
+        <span style=color:#f92672>}</span>
+        pw<span style=color:#f92672>.</span><span style=color:#a6e22e>close</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>下面是 web.xml 的配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style=color:#f92672>&lt;web-app</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;http://xmlns.jcp.org/xml/ns/javaee&#34;</span>
+         <span style=color:#a6e22e>xmlns:xsi=</span><span style=color:#e6db74>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+         <span style=color:#a6e22e>xsi:schemaLocation=</span><span style=color:#e6db74>&#34;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&#34;</span>
+         <span style=color:#a6e22e>version=</span><span style=color:#e6db74>&#34;3.1&#34;</span><span style=color:#f92672>&gt;</span>
+    <span style=color:#f92672>&lt;servlet&gt;</span>
+        <span style=color:#f92672>&lt;servlet-name&gt;</span>HelloWorldServlet<span style=color:#f92672>&lt;/servlet-name&gt;</span>
+        <span style=color:#f92672>&lt;servlet-class&gt;</span>com.scottqian.javaPerformanceTest.ServletDemo<span style=color:#f92672>&lt;/servlet-class&gt;</span>
+    <span style=color:#f92672>&lt;/servlet&gt;</span>
+    <span style=color:#f92672>&lt;servlet-mapping&gt;</span>
+        <span style=color:#f92672>&lt;servlet-name&gt;</span>HelloWorldServlet<span style=color:#f92672>&lt;/servlet-name&gt;</span>
+        <span style=color:#f92672>&lt;url-pattern&gt;</span>/<span style=color:#f92672>&lt;/url-pattern&gt;</span>
+    <span style=color:#f92672>&lt;/servlet-mapping&gt;</span>
+<span style=color:#f92672>&lt;/web-app&gt;</span>
+</code></pre></div><p>最后将上面的部分放到 Tomcat8 下面运行即可。</p><h1 id=性能测试工具-jmeter>性能测试工具 Jmeter</h1><p>我是用了 Jmeter 工具进行性能测试。首先，需要建立一个线程组：
+<img src=/Images/nodejs-vs-java-performance/1.png alt>
+然后设置一些关于线程组的变量。
+<img src=/Images/nodejs-vs-java-performance/2.png alt>
+在线程组之下，还需要设置一个 HTTP 请求 sampler，然后在这里面设置需要请求的 url
+<img src=/Images/nodejs-vs-java-performance/3.png alt>
+最后，添加一个聚合报告，用于查看测试的结果
+<img src=/Images/nodejs-vs-java-performance/4.png alt></p><h1 id=测试结果>测试结果</h1><h3 id=100-并发>100 并发</h3><table><thead><tr><th>Label</th><th># Samples</th><th>Average</th><th>Median</th><th>90% Line</th><th>95% Line</th><th>99% Line</th><th>Min</th><th>Max</th><th>Error %</th><th>Throughput</th><th>KB/sec</th></tr></thead><tbody><tr><td>java</td><td>9369</td><td>224</td><td>200</td><td>290</td><td>345</td><td>529</td><td>79</td><td>1371</td><td>0.25%</td><td>182.5</td><td>40.0</td></tr><tr><td>nodejs</td><td>9322</td><td>315</td><td>297</td><td>367</td><td>426</td><td>580</td><td>51</td><td>967</td><td>0.30%</td><td>185.1</td><td>35.8</td></tr><tr><td>总体</td><td>18691</td><td>269</td><td>287</td><td>338</td><td>392</td><td>542</td><td>51</td><td>1371</td><td>0.27%</td><td>364.1</td><td>75.1</td></tr></tbody></table><h3 id=200-并发>200 并发</h3><table><thead><tr><th>Label</th><th># Samples</th><th>Average</th><th>Median</th><th>90% Line</th><th>95% Line</th><th>99% Line</th><th>Min</th><th>Max</th><th>Error %</th><th>Throughput</th><th>KB/sec</th></tr></thead><tbody><tr><td>java</td><td>11376</td><td>330</td><td>246</td><td>420</td><td>556</td><td>1581</td><td>34</td><td>10959</td><td>0.15%</td><td>252.1</td><td>54.8</td></tr><tr><td>nodejs</td><td>11278</td><td>401</td><td>327</td><td>506</td><td>632</td><td>1542</td><td>13</td><td>9968</td><td>0.13%</td><td>264.2</td><td>50.1</td></tr><tr><td>总体</td><td>22654</td><td>365</td><td>312</td><td>485</td><td>601</td><td>1548</td><td>13</td><td>10959</td><td>0.14%</td><td>502.0</td><td>102.1</td></tr></tbody></table><h3 id=300-并发>300 并发</h3><table><thead><tr><th>Label</th><th># Samples</th><th>Average</th><th>Median</th><th>90% Line</th><th>95% Line</th><th>99% Line</th><th>Min</th><th>Max</th><th>Error %</th><th>Throughput</th><th>KB/sec</th></tr></thead><tbody><tr><td>java</td><td>17017</td><td>403</td><td>374</td><td>568</td><td>662</td><td>1252</td><td>21</td><td>1964</td><td>0.09%</td><td>246.3</td><td>53.2</td></tr><tr><td>nodejs</td><td>16850</td><td>430</td><td>400</td><td>565</td><td>624</td><td>945</td><td>55</td><td>4008</td><td>0.14%</td><td>278.7</td><td>52.8</td></tr><tr><td>总体</td><td>33867</td><td>417</td><td>390</td><td>566</td><td>637</td><td>1066</td><td>21</td><td>4008</td><td>0.12%</td><td>490.3</td><td>99.4</td></tr></tbody></table><h3 id=500-并发>500 并发</h3><table><thead><tr><th>Label</th><th># Samples</th><th>Average</th><th>Median</th><th>90% Line</th><th>95% Line</th><th>99% Line</th><th>Min</th><th>Max</th><th>Error %</th><th>Throughput</th><th>KB/sec</th></tr></thead><tbody><tr><td>java</td><td>20785</td><td>801</td><td>798</td><td>1121</td><td>1188</td><td>1385</td><td>84</td><td>2388</td><td>0.24%</td><td>243.5</td><td>53.4</td></tr><tr><td>nodejs</td><td>20609</td><td>664</td><td>647</td><td>859</td><td>924</td><td>1076</td><td>7</td><td>1999</td><td>0.29%</td><td>274.5</td><td>53.0</td></tr><tr><td>总体</td><td>41394</td><td>733</td><td>705</td><td>1031</td><td>1127</td><td>1297</td><td>7</td><td>2388</td><td>0.26%</td><td>484.8</td><td>99.9</td></tr></tbody></table><p>先解释一下上面的几个名词：</p><ul><li><strong>Samples</strong>：表示你这次测试中一共发出了多少个请求</li><li><strong>Average</strong>：平均响应时间</li><li><strong>Median</strong>：中位数，也就是 50％ 用户的响应时间</li><li><strong>90% Line</strong>：90％ 用户的响应时间</li><li><strong>Min</strong>：最小响应时间</li><li><strong>Max</strong>：最大响应时间</li><li><strong>Error%</strong>：本次测试中出现错误的请求的数量/请求的总数</li><li><strong>Throughput</strong>：吞吐量——默认情况下表示每秒完成的请求数（Request per Second）</li><li><strong>KB/Sec</strong>：每秒从服务器端接收到的数据量</li></ul><p><img src=/Images/nodejs-vs-java-performance/compare.png alt>
+从上面的分析可以得到一下一些结论：</p><ol><li>nodejs 的平均吞吐量比 java 多了**8%**左右。</li><li>在大并发情况下，nodejs 的错误率会比 java 略微高一点</li><li>上了 200 并发之后，java 的吞吐量有略微下降趋势。猜想后面并发如果更大，java 的吞吐量应该会更差</li></ol><p>另外，有一个有趣的现象是当刚开始运行测试的时候，nodejs 的吞吐量是一下子窜到 200 多。而 java 则是慢慢一点一点涨上去的。nodejs 的异步非阻塞模型应该帮了不少忙。</p><p>最后，测试工程<a href=/Images/nodejs-vs-java-performance/nodejsVSjava.zip>下载</a></p></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

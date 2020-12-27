@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vim on 钱李峰的博客</title><link>https://blog.qlf.io/tags/vim/</link><description>Recent content in vim on 钱李峰的博客</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Sat, 18 Jan 2014 16:22:17 +0000</lastBuildDate><atom:link href="https://blog.qlf.io/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>Vim插件推荐</title><link>https://blog.qlf.io/post/vim-plugin-introduction/</link><pubDate>Sat, 18 Jan 2014 16:22:17 +0000</pubDate><guid>https://blog.qlf.io/post/vim-plugin-introduction/</guid><description>陆陆续续使用 Vim 也差不多快一年多了，从一开始的几次放弃到现在越用越习惯。在这当中也折腾了许久，最主要的就是 Vim 中各种各样的插件。
+对于软件，我在这里看到一种观点比较有趣。作者把好的软件大致分为两类：瑞士军刀和工具链。所谓瑞士军刀指的是那些在某些特定领域做的很强大的软件。这类软件不需要折腾又需要折腾。所谓不需要折腾是因为一般这类软件在此领域中都很强悍，你折腾来折腾去最终一定会折腾到这个软件上面，一旦熟练使用了此软件那么其他的类似软件已经完全不需要折腾了。而所谓需要折腾是指通常这类软件都有一个比较陡峭的学习曲线，从不会不习惯到熟练使用的过程就是一个折腾与磨合的过程。
+大概 Vim 就是这样的一个软件，而我磨合的结果就是下面列出的插件。
+vundle 推荐星级：★★★★★
+Vim 插件管理工具。使用此工具后安装 Vim 插件会变成一件很简单的事。只需要在 vimrc 中声明一行类似于这样的代码：
+Bundle 'kien/ctrlp.vim' 然后使用命令：BundleInstall。此时 vundle 会自动安装声明的插件，简单方便。我下面介绍的插件都是使用这种方式安装的。
+ctrlp.vim 推荐星级：★★★★★
+这是一款用于模糊查找文件的插件。它可以搜索文件，buffer列表等。我最喜欢的功能是打开MRU列表，即我最近经常使用的文件列表。下面是我对于它的一些配置文件，主要是把快捷键换成F2了。
+Bundle 'kien/ctrlp.vim' &amp;quot;MRU default let g:ctrlp_map = '&amp;lt;F2&amp;gt;' let g:ctrlp_regexp = 1 let g:ctrlp_cmd = 'CtrlPMRU' let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$\|.rvm$' &amp;quot;let g:ctrlp_working_path_mode=0 let g:ctrlp_match_window_bottom=1 let g:ctrlp_max_height=15 let g:ctrlp_match_window_reversed=0 let g:ctrlp_mruf_max=500 let g:ctrlp_follow_symlinks=1 The-NERD-Commenter 推荐星级：★★★★★
+代码注释插件。这款插件很强大，基本不用考虑你目前编辑的代码语言，它会自动找到符合该语言的注释方式。我目前使用的 c#,python,css,html,js 等无一例外。 配置文件：
+&amp;quot; 这里使用的绑定快捷键同VS Bundle 'The-NERD-Commenter' :nmap &amp;lt;C-K&amp;gt;&amp;lt;C-C&amp;gt; &amp;lt;leader&amp;gt;c&amp;lt;space&amp;gt; :imap &amp;lt;C-K&amp;gt;&amp;lt;C-C&amp;gt; &amp;lt;Esc&amp;gt;&amp;lt;leader&amp;gt;c&amp;lt;space&amp;gt;i :nmap &amp;lt;C-K&amp;gt;&amp;lt;C-U&amp;gt; &amp;lt;leader&amp;gt;c&amp;lt;space&amp;gt; :imap &amp;lt;C-K&amp;gt;&amp;lt;C-U&amp;gt; &amp;lt;Esc&amp;gt;&amp;lt;leader&amp;gt;c&amp;lt;space&amp;gt;i The-NERD-tree 推荐星级：★★★★★</description></item></channel></rss>

@@ -1,0 +1,91 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/validate-user-input-by-dynamic-compling-code/"><link rel=canonical href=https://blog.qlf.io/post/validate-user-input-by-dynamic-compling-code/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"动态编译C#代码","headline":"动态编译C#代码","description":"动态编译 C#代码的一次尝试\n需求描述 现在一个页面有 4 个输入框，每个输入框都绑定有一个验证规则。要求在用户输入完毕后根据每个输入的规则对用户输入进行验证。而且这些验证规则是用户在后台可以动态更改的。如下图所示： 最初的想法 我们最初的想法使用正则表达式实现。后台数据库中只要存储验证的正则表达式就行了。需要验证的时候，从后台数据库中取得对应的正则表达式即可。 想法很好，就是真正到了实现的时候有点问题。比如上图中的第一个要求如果使用正则表达式来实现就会比较复杂，在网上查了一些资料也没有发现比较通用的能够检测数字范围的正则表达式。最要命的是上面第一个是可以更改的，如果用户突然哪一天更改为：\u0026gt;34.5 \u0026amp;\u0026amp; \u0026lt; 999999.9 那这个正则又该怎么写呢？目前还没有找到一个比较通用的验证数字范围的正则表达式。所以这种不可行。\n不过上面有一点肯定的是，将验证规则提取到数据库中达到可配置这个是一定的，只是现在缺少一种行之有效并且简单的表达式。表达式啊表达式\u0026hellip;突然想到 lambda 表达式不也是一种表达式么，如果如果让他来进行类似于范围判断的话也会简单很多。例如，如果要进行上面的范围判断可以写成：o=\u0026gt; o \u0026gt;100 \u0026amp;\u0026amp; o \u0026lt; 499，比正则表达式不知道高到哪里去了。 现在需要考虑的问题就是如何让后台代码从数据库中取出这段 lambda 表达式，并且能够成功执行返回结果。自然而然的想到了动态编译这个词，只要能够动态编译这些代码片段，那么就能执行并返回结果了。\n动态编译 c#代码 初步的想法有了，下面就是验证其是否可行了。google 了一番动态编译 c#代码，在博客园园里面搜索到这篇文章http:\/\/www.cnblogs.com\/jailu\/archive\/2007\/07\/22\/827058.html。 很详细的教程，在这里谢谢作者。作者给出的代码显然还不能直接用到我们这里。我们需要的接口应该是这样的bool Validate(string lambda, string userInput); 第一个参数是从数据库取出的 lambda 表达式字符串，第二个参数是用户输入的需要进行验证的值。\nstatic bool validateInput(string lambda, string input) { \/\/ 1.CSharpCodePrivoder CSharpCodeProvider objCSharpCodePrivoder = new CSharpCodeProvider(new Dictionary\u0026lt;string, string\u0026gt;() { { \u0026quot;CompilerVersion\u0026quot;, \u0026quot;v3.5\u0026quot; } }); \/\/ 2.ICodeComplier ICodeCompiler objICodeCompiler = objCSharpCodePrivoder.CreateCompiler(); \/\/ 3.CompilerParameters CompilerParameters objCompilerParameters = new CompilerParameters(); objCompilerParameters.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2012","datePublished":"2012-05-15 15:27:00 \u002b0000 UTC","dateModified":"2012-05-15 15:27:00 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/validate-user-input-by-dynamic-compling-code\/","keywords":[]}</script><title>动态编译C#代码 - 钱李峰的博客</title><meta property="og:title" content="动态编译C#代码 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="动态编译 C#代码的一次尝试
+需求描述 现在一个页面有 4 个输入框，每个输入框都绑定有一个验证规则。要求在用户输入完毕后根据每个输入的规则对用户输入进行验证。而且这些验证规则是用户在后台可以动态更改的。如下图所示： 最初的想法 我们最初的想法使用正则表达式实现。后台数据库中只要存储验证的正则表达式就行了。需要验证的时候，从后台数据库中取得对应的正则表达式即可。 想法很好，就是真正到了实现的时候有点问题。比如上图中的第一个要求如果使用正则表达式来实现就会比较复杂，在网上查了一些资料也没有发现比较通用的能够检测数字范围的正则表达式。最要命的是上面第一个是可以更改的，如果用户突然哪一天更改为：>34.5 && < 999999.9 那这个正则又该怎么写呢？目前还没有找到一个比较通用的验证数字范围的正则表达式。所以这种不可行。
+不过上面有一点肯定的是，将验证规则提取到数据库中达到可配置这个是一定的，只是现在缺少一种行之有效并且简单的表达式。表达式啊表达式&mldr;突然想到 lambda 表达式不也是一种表达式么，如果如果让他来进行类似于范围判断的话也会简单很多。例如，如果要进行上面的范围判断可以写成：o=> o >100 && o < 499，比正则表达式不知道高到哪里去了。 现在需要考虑的问题就是如何让后台代码从数据库中取出这段 lambda 表达式，并且能够成功执行返回结果。自然而然的想到了动态编译这个词，只要能够动态编译这些代码片段，那么就能执行并返回结果了。
+动态编译 c#代码 初步的想法有了，下面就是验证其是否可行了。google 了一番动态编译 c#代码，在博客园园里面搜索到这篇文章http://www.cnblogs.com/jailu/archive/2007/07/22/827058.html。 很详细的教程，在这里谢谢作者。作者给出的代码显然还不能直接用到我们这里。我们需要的接口应该是这样的bool Validate(string lambda, string userInput); 第一个参数是从数据库取出的 lambda 表达式字符串，第二个参数是用户输入的需要进行验证的值。
+static bool validateInput(string lambda, string input) { // 1.CSharpCodePrivoder CSharpCodeProvider objCSharpCodePrivoder = new CSharpCodeProvider(new Dictionary<string, string>() { { &#34;CompilerVersion&#34;, &#34;v3.5&#34; } }); // 2.ICodeComplier ICodeCompiler objICodeCompiler = objCSharpCodePrivoder.CreateCompiler(); // 3.CompilerParameters CompilerParameters objCompilerParameters = new CompilerParameters(); objCompilerParameters."><meta name=description content="动态编译 C#代码的一次尝试
+需求描述 现在一个页面有 4 个输入框，每个输入框都绑定有一个验证规则。要求在用户输入完毕后根据每个输入的规则对用户输入进行验证。而且这些验证规则是用户在后台可以动态更改的。如下图所示： 最初的想法 我们最初的想法使用正则表达式实现。后台数据库中只要存储验证的正则表达式就行了。需要验证的时候，从后台数据库中取得对应的正则表达式即可。 想法很好，就是真正到了实现的时候有点问题。比如上图中的第一个要求如果使用正则表达式来实现就会比较复杂，在网上查了一些资料也没有发现比较通用的能够检测数字范围的正则表达式。最要命的是上面第一个是可以更改的，如果用户突然哪一天更改为：>34.5 && < 999999.9 那这个正则又该怎么写呢？目前还没有找到一个比较通用的验证数字范围的正则表达式。所以这种不可行。
+不过上面有一点肯定的是，将验证规则提取到数据库中达到可配置这个是一定的，只是现在缺少一种行之有效并且简单的表达式。表达式啊表达式&mldr;突然想到 lambda 表达式不也是一种表达式么，如果如果让他来进行类似于范围判断的话也会简单很多。例如，如果要进行上面的范围判断可以写成：o=> o >100 && o < 499，比正则表达式不知道高到哪里去了。 现在需要考虑的问题就是如何让后台代码从数据库中取出这段 lambda 表达式，并且能够成功执行返回结果。自然而然的想到了动态编译这个词，只要能够动态编译这些代码片段，那么就能执行并返回结果了。
+动态编译 c#代码 初步的想法有了，下面就是验证其是否可行了。google 了一番动态编译 c#代码，在博客园园里面搜索到这篇文章http://www.cnblogs.com/jailu/archive/2007/07/22/827058.html。 很详细的教程，在这里谢谢作者。作者给出的代码显然还不能直接用到我们这里。我们需要的接口应该是这样的bool Validate(string lambda, string userInput); 第一个参数是从数据库取出的 lambda 表达式字符串，第二个参数是用户输入的需要进行验证的值。
+static bool validateInput(string lambda, string input) { // 1.CSharpCodePrivoder CSharpCodeProvider objCSharpCodePrivoder = new CSharpCodeProvider(new Dictionary<string, string>() { { &#34;CompilerVersion&#34;, &#34;v3.5&#34; } }); // 2.ICodeComplier ICodeCompiler objICodeCompiler = objCSharpCodePrivoder.CreateCompiler(); // 3.CompilerParameters CompilerParameters objCompilerParameters = new CompilerParameters(); objCompilerParameters."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>动态编译C#代码</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2012-05-15 15:27:00 UTC">15 May 2012</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>动态编译 C#代码的一次尝试</p><h1 id=需求描述>需求描述</h1><p>现在一个页面有 4 个输入框，每个输入框都绑定有一个验证规则。要求在用户输入完毕后根据每个输入的规则对用户输入进行验证。而且这些验证规则是用户在后台可以动态更改的。如下图所示：</p><h1 id=最初的想法>最初的想法</h1><p>我们最初的想法使用正则表达式实现。后台数据库中只要存储验证的正则表达式就行了。需要验证的时候，从后台数据库中取得对应的正则表达式即可。
+想法很好，就是真正到了实现的时候有点问题。比如上图中的第一个要求如果使用正则表达式来实现就会比较复杂，在网上查了一些资料也没有发现比较通用的能够检测数字范围的正则表达式。最要命的是上面第一个是可以更改的，如果用户突然哪一天更改为：>34.5 && &lt; 999999.9 那这个正则又该怎么写呢？目前还没有找到一个比较通用的验证数字范围的正则表达式。所以这种不可行。</p><p>不过上面有一点肯定的是，将验证规则提取到数据库中达到可配置这个是一定的，只是现在缺少一种行之有效并且简单的表达式。表达式啊表达式&mldr;突然想到 lambda 表达式不也是一种表达式么，如果如果让他来进行类似于范围判断的话也会简单很多。例如，如果要进行上面的范围判断可以写成：o=> o >100 && o &lt; 499，比正则表达式不知道高到哪里去了。
+现在需要考虑的问题就是如何让后台代码从数据库中取出这段 lambda 表达式，并且能够成功执行返回结果。自然而然的想到了动态编译这个词，只要能够动态编译这些代码片段，那么就能执行并返回结果了。</p><h1 id=动态编译-c代码>动态编译 c#代码</h1><p>初步的想法有了，下面就是验证其是否可行了。google 了一番动态编译 c#代码，在博客园园里面搜索到这篇文章<a href=http://www.cnblogs.com/jailu/archive/2007/07/22/827058.html>http://www.cnblogs.com/jailu/archive/2007/07/22/827058.html</a>。
+很详细的教程，在这里谢谢作者。作者给出的代码显然还不能直接用到我们这里。我们需要的接口应该是这样的<code>bool Validate(string lambda, string userInput);</code> 第一个参数是从数据库取出的 lambda 表达式字符串，第二个参数是用户输入的需要进行验证的值。</p><pre><code>static bool validateInput(string lambda, string input)
+{
+    // 1.CSharpCodePrivoder
+    CSharpCodeProvider objCSharpCodePrivoder = new CSharpCodeProvider(new Dictionary&lt;string, string&gt;() { { &quot;CompilerVersion&quot;, &quot;v3.5&quot; } });
+    // 2.ICodeComplier
+    ICodeCompiler objICodeCompiler = objCSharpCodePrivoder.CreateCompiler();
+    // 3.CompilerParameters
+    CompilerParameters objCompilerParameters = new CompilerParameters();
+    objCompilerParameters.ReferencedAssemblies.Add(&quot;System.dll&quot;);
+    objCompilerParameters.ReferencedAssemblies.Add(&quot;System.Core.dll&quot;);
+    objCompilerParameters.ReferencedAssemblies.Add(&quot;System.Xml.Linq.dll&quot;);
+    objCompilerParameters.GenerateExecutable = false;
+    objCompilerParameters.GenerateInMemory = false;
+    // 4.CompilerResults
+    CompilerResults cr = objICodeCompiler.CompileAssemblyFromSource(objCompilerParameters, GenerateCode(lambda, input));
+
+    if (cr.Errors.HasErrors)
+    {
+        Console.WriteLine(&quot;编译错误：&quot;);
+        foreach (CompilerError err in cr.Errors)
+        {
+            Console.WriteLine(err.ErrorText);
+        }
+    }
+    else
+    {
+        Assembly objAssembly = cr.CompiledAssembly;
+        object objHelloWorld = objAssembly.CreateInstance(&quot;DynamicCodeGenerate.DynamicValidate&quot;);
+        MethodInfo objMI = objHelloWorld.GetType().GetMethod(&quot;Validate&quot;);
+
+        return (bool)objMI.Invoke(objHelloWorld, null);
+    }
+
+    return false;
+
+}
+</code></pre><p>通过 CompileAssemblyFromSource 这个方法就能动态编译代码了。因为需要用到 lambda 表达式，所以在创建 CSharpCodeProvider 的时候指定编译器的版本为 3.5 的。编译完了之后，可以通过反射进行调用相应的动态编译的方法。在本例中，我们需要重点注意的还是怎么样构造一个可以执行 lambda 表达式的代码片段。</p><pre><code>static string GenerateCode(string lambda, string input)
+{
+    StringBuilder sb = new StringBuilder();
+    sb.Append(&quot;using System;&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;namespace DynamicCodeGenerate&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;{&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;    public class DynamicValidate&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;    {&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        public delegate TResult Func&lt;T, TResult&gt;(T arg);&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        public bool Validates(Func&lt;string, bool&gt; f)&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        {&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;              return f(\&quot;&quot; + input + &quot;\&quot;);&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        }&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        public bool Validate()&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        {&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;              return Validates(&quot; + lambda + &quot;);&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;        }&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;    }&quot;);
+    sb.Append(Environment.NewLine);
+    sb.Append(&quot;}&quot;);
+
+    string code = sb.ToString();
+    Console.WriteLine(code);
+    Console.WriteLine();
+
+    return code;
+}
+</code></pre><p>可以看到，我声明了一个 Validates 方法，这个方法接受一个委托 Func。输入是字符串，返回值是 bool。然后再声明一个 Vlidate 调用 Validates 方法并传入 lambda。通过这样的方式就可以成功动态编译并执行我们指定的 lambda 表达式了。</p><h1 id=关于效率>关于效率</h1><p>这段代码既用到动态编译，又用到反射效率上肯定不是太高。不过灵活性和效率向来就很难兼得。如果还有其他更好的兼得的方法欢迎不吝赐教！</p></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

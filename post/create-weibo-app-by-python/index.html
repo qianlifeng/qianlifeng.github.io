@@ -1,0 +1,76 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/create-weibo-app-by-python/"><link rel=canonical href=https://blog.qlf.io/post/create-weibo-app-by-python/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"使用python进行新浪微博应用开发","headline":"使用python进行新浪微博应用开发","description":"本文简单的介绍了如何使用新浪微博 API 来做一个简单的微博应用\n首先，你需要在新浪开放平台上创建一个应用\n 在开放平台-我的应用下面创建新的应用。按照提示一步一步创建，傻瓜式的 点击刚才创建的应用进入详细页面，然后查看应用信息-基本信息下面。在程序开发过程中，我们需要 app key 和 app secret 来调用新浪 API 下载对应语言的 sdk。当然这里以 python 为例，下载地址：http:\/\/code.google.com\/p\/sinaweibopy\/。下载完成后将里面的 weibo.py 复制到你的应用程序同一目录下，或者复制到 lib\/site-package 下。这样你的应用就可以调用 sdk 了。 在你的程序里面做如下测试，如果你幸运的话你应该能得到正确的返回结果了。  from weibo import APIClient APP_KEY = \u0027xxxx\u0027 # app key APP_SECRET = \u0027xxxx\u0027 # app secret CALLBACK_URL = \u0027xxxxxx\u0027# callback url #利用官方微博SDK client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL) #用得到的url到新浪页面访问 url = client.get_authorize_url() webbrowser.open_new(url) #手动输入新浪返回的code code = raw_input() #新浪返回的token，类似abc123xyz456，每天的token不一样 r = client.request_access_token(code) access_token = r.access_token expires_in = r.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2012","datePublished":"2012-02-12 21:43:00 \u002b0000 UTC","dateModified":"2012-02-12 21:43:00 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/create-weibo-app-by-python\/","keywords":[]}</script><title>使用python进行新浪微博应用开发 - 钱李峰的博客</title><meta property="og:title" content="使用python进行新浪微博应用开发 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="本文简单的介绍了如何使用新浪微博 API 来做一个简单的微博应用
+首先，你需要在新浪开放平台上创建一个应用
+ 在开放平台-我的应用下面创建新的应用。按照提示一步一步创建，傻瓜式的 点击刚才创建的应用进入详细页面，然后查看应用信息-基本信息下面。在程序开发过程中，我们需要 app key 和 app secret 来调用新浪 API 下载对应语言的 sdk。当然这里以 python 为例，下载地址：http://code.google.com/p/sinaweibopy/。下载完成后将里面的 weibo.py 复制到你的应用程序同一目录下，或者复制到 lib/site-package 下。这样你的应用就可以调用 sdk 了。 在你的程序里面做如下测试，如果你幸运的话你应该能得到正确的返回结果了。  from weibo import APIClient APP_KEY = 'xxxx' # app key APP_SECRET = 'xxxx' # app secret CALLBACK_URL = 'xxxxxx'# callback url #利用官方微博SDK client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL) #用得到的url到新浪页面访问 url = client.get_authorize_url() webbrowser.open_new(url) #手动输入新浪返回的code code = raw_input() #新浪返回的token，类似abc123xyz456，每天的token不一样 r = client.request_access_token(code) access_token = r.access_token expires_in = r."><meta name=description content="本文简单的介绍了如何使用新浪微博 API 来做一个简单的微博应用
+首先，你需要在新浪开放平台上创建一个应用
+ 在开放平台-我的应用下面创建新的应用。按照提示一步一步创建，傻瓜式的 点击刚才创建的应用进入详细页面，然后查看应用信息-基本信息下面。在程序开发过程中，我们需要 app key 和 app secret 来调用新浪 API 下载对应语言的 sdk。当然这里以 python 为例，下载地址：http://code.google.com/p/sinaweibopy/。下载完成后将里面的 weibo.py 复制到你的应用程序同一目录下，或者复制到 lib/site-package 下。这样你的应用就可以调用 sdk 了。 在你的程序里面做如下测试，如果你幸运的话你应该能得到正确的返回结果了。  from weibo import APIClient APP_KEY = 'xxxx' # app key APP_SECRET = 'xxxx' # app secret CALLBACK_URL = 'xxxxxx'# callback url #利用官方微博SDK client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL) #用得到的url到新浪页面访问 url = client.get_authorize_url() webbrowser.open_new(url) #手动输入新浪返回的code code = raw_input() #新浪返回的token，类似abc123xyz456，每天的token不一样 r = client.request_access_token(code) access_token = r.access_token expires_in = r."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>使用python进行新浪微博应用开发</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2012-02-12 21:43:00 UTC">12 Feb 2012</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>本文简单的介绍了如何使用新浪微博 API 来做一个简单的微博应用</p><p>首先，你需要在新浪开放平台上创建一个应用</p><ol><li>在开放平台-我的应用下面创建新的应用。按照提示一步一步创建，傻瓜式的</li><li>点击刚才创建的应用进入详细页面，然后查看应用信息-基本信息下面。在程序开发过程中，我们需要 app key 和 app secret 来调用新浪 API</li><li>下载对应语言的 sdk。当然这里以 python 为例，下载地址：<a href=http://code.google.com/p/sinaweibopy/>http://code.google.com/p/sinaweibopy/</a>。下载完成后将里面的 weibo.py 复制到你的应用程序同一目录下，或者复制到 lib/site-package 下。这样你的应用就可以调用 sdk 了。</li><li>在你的程序里面做如下测试，如果你幸运的话你应该能得到正确的返回结果了。</li></ol><pre><code>from weibo import APIClient
+
+APP_KEY = 'xxxx' # app key
+APP_SECRET = 'xxxx' # app secret
+CALLBACK_URL = 'xxxxxx'# callback url
+
+#利用官方微博SDK
+client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
+
+#用得到的url到新浪页面访问
+url = client.get_authorize_url()
+webbrowser.open_new(url)
+
+#手动输入新浪返回的code
+code = raw_input()
+
+#新浪返回的token，类似abc123xyz456，每天的token不一样
+r = client.request_access_token(code)
+access_token = r.access_token
+expires_in = r.expires_in # token过期的UNIX时间
+
+#设置得到的access_token
+client.set_access_token(access_token, expires_in)
+
+#有了access_token后，可以做任何事情了
+client.get.friendships__followers()
+</code></pre><ol start=5><li>利用 API 做你能想到的任何事情，比如我做了一个粉丝和关注者的性别分析：
+<img src=/Images/create-weibo-app-by-python/1.png alt>
+要实现这个统计很简单，首先获得某个用户的所有关注者：</li></ol><pre><code>def GetAllFriends(self,uid):
+    &quot;&quot;&quot;
+    得到所有的关注对象
+    返回：(screenName,gender)元组数组
+    &quot;&quot;&quot;
+    resFollows = []
+    nextCursor = -1
+    while nextCursor != 0:
+        followers = self.client.get.friendships__friends(uid=uid,count=200,cursor=nextCursor)
+        nextCursor = followers[&quot;next_cursor&quot;]
+        for follower in followers[&quot;users&quot;]:
+            resFollows.append( (follower[&quot;screen_name&quot;],follower[&quot;gender&quot;]) )
+    print len(resFollows)
+    return resFollows
+</code></pre><p>然后利用 matplotlib 这个第三方库进行绘图即可。关于 matplotlib 我想我后面会写一些文章进行说明的，很强大的一个二维绘图库。</p><pre><code>def FriendsMaleOrFemale(uid):
+    wb = MySinaWeiBo()
+    m = 0
+    f = 0
+    n = 0
+    for i in wb.GetAllFriends(uid):
+       if i[1] == &quot;m&quot;:
+            m = m+1
+       elif i[1] == &quot;f&quot;:
+            f = f+1
+       else:
+            n = n+1
+
+    ind = np.arange(1,4) # np.arange(1,N+1)  # the x locations for the groups
+    width = 0.25       # the width of the bars
+
+    plt.subplot(111)
+    rects1 = plt.bar(ind, (m,f,n), width,bottom = 0,align = 'center')
+
+    #增加Y轴说明
+    plt.ylabel(u'关注数')
+    #增加标题
+    plt.title(u'我关注的人性别分析(有效样本：%d)' % (m+f+n))
+    #设置x坐标位置和文字
+    plt.xticks(ind, (u&quot;男&quot;,u&quot;女&quot;,u&quot;未知&quot;) )
+    autolabel(rects1)
+    plt.legend(rects1,(u&quot;用户：%s&quot; % wb.GetUserByUid(uid),))
+    plt.show()
+</code></pre></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

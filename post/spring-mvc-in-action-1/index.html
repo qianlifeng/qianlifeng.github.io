@@ -1,0 +1,113 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/spring-mvc-in-action-1/"><link rel=canonical href=https://blog.qlf.io/post/spring-mvc-in-action-1/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"SpringMVC入门","headline":"SpringMVC入门","description":"写一个最小可运行且无 XML 配置（看到大坨大坨的 XML 配置就烦）的 Spring MVC 程序。\n建立项目 首先，你需要下载 Maven。关于 Maven 的使用，请参考我写的这篇入门文章。按照 Maven 的约定，我们建立如下目录结构：\n--src --main |--java | |--com | |--scottqian | |--controllers \/*控制器目录*\/ | | --HomeController.java | |--Application.java \/*程序入口*\/ |--resources |--templates \/*模板目录*\/ |--home.html --pom.xml 其中，HomeController.java内容如下\npackage com.scottqian.controllers; import org.springframework.stereotype.Controller; import org.springframework.ui.Model; import org.springframework.web.bind.annotation.RequestMapping; import org.springframework.web.bind.annotation.RequestParam; @Controller public class HomeController { @RequestMapping(\u0026#34;\/\u0026#34;) public String Home(@RequestParam(value=\u0026#34;name\u0026#34;, required=false, defaultValue=\u0026#34;World\u0026#34;) String name, Model model) { model.addAttribute(\u0026#34;name\u0026#34;, name); return \u0026#34;home\u0026#34;; } } 本身结构就比较清晰了，对 MVC 有点了解的从字面上看都应该知道它的意思了（先抛开@Controller 这种注解不谈）。唯一可能疑惑的地方是Home方法的返回值，这里返回的是一个字符串。这个字符串代表了视图的名字，在 SpringMVC 2.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2015","datePublished":"2015-06-01 16:06:00 \u002b0000 UTC","dateModified":"2015-06-01 16:06:00 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/spring-mvc-in-action-1\/","keywords":[]}</script><title>SpringMVC入门 - 钱李峰的博客</title><meta property="og:title" content="SpringMVC入门 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="写一个最小可运行且无 XML 配置（看到大坨大坨的 XML 配置就烦）的 Spring MVC 程序。
+建立项目 首先，你需要下载 Maven。关于 Maven 的使用，请参考我写的这篇入门文章。按照 Maven 的约定，我们建立如下目录结构：
+--src --main |--java | |--com | |--scottqian | |--controllers /*控制器目录*/ | | --HomeController.java | |--Application.java /*程序入口*/ |--resources |--templates /*模板目录*/ |--home.html --pom.xml 其中，HomeController.java内容如下
+package com.scottqian.controllers; import org.springframework.stereotype.Controller; import org.springframework.ui.Model; import org.springframework.web.bind.annotation.RequestMapping; import org.springframework.web.bind.annotation.RequestParam; @Controller public class HomeController { @RequestMapping(&#34;/&#34;) public String Home(@RequestParam(value=&#34;name&#34;, required=false, defaultValue=&#34;World&#34;) String name, Model model) { model.addAttribute(&#34;name&#34;, name); return &#34;home&#34;; } } 本身结构就比较清晰了，对 MVC 有点了解的从字面上看都应该知道它的意思了（先抛开@Controller 这种注解不谈）。唯一可能疑惑的地方是Home方法的返回值，这里返回的是一个字符串。这个字符串代表了视图的名字，在 SpringMVC 2."><meta name=description content="写一个最小可运行且无 XML 配置（看到大坨大坨的 XML 配置就烦）的 Spring MVC 程序。
+建立项目 首先，你需要下载 Maven。关于 Maven 的使用，请参考我写的这篇入门文章。按照 Maven 的约定，我们建立如下目录结构：
+--src --main |--java | |--com | |--scottqian | |--controllers /*控制器目录*/ | | --HomeController.java | |--Application.java /*程序入口*/ |--resources |--templates /*模板目录*/ |--home.html --pom.xml 其中，HomeController.java内容如下
+package com.scottqian.controllers; import org.springframework.stereotype.Controller; import org.springframework.ui.Model; import org.springframework.web.bind.annotation.RequestMapping; import org.springframework.web.bind.annotation.RequestParam; @Controller public class HomeController { @RequestMapping(&#34;/&#34;) public String Home(@RequestParam(value=&#34;name&#34;, required=false, defaultValue=&#34;World&#34;) String name, Model model) { model.addAttribute(&#34;name&#34;, name); return &#34;home&#34;; } } 本身结构就比较清晰了，对 MVC 有点了解的从字面上看都应该知道它的意思了（先抛开@Controller 这种注解不谈）。唯一可能疑惑的地方是Home方法的返回值，这里返回的是一个字符串。这个字符串代表了视图的名字，在 SpringMVC 2."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>SpringMVC入门</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2015-06-01 16:06:00 UTC">01 Jun 2015</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>写一个最小可运行且无 XML 配置（看到大坨大坨的 XML 配置就烦）的 Spring MVC 程序。</p><h1 id=建立项目>建立项目</h1><p>首先，你需要下载 Maven。关于 Maven 的使用，请参考我写的<a href=/2015/05/28/maven-start/>这篇入门文章</a>。按照 Maven 的约定，我们建立如下目录结构：</p><pre><code>--src
+  --main
+    |--java
+    |  |--com
+    |    |--scottqian
+    |      |--controllers       /*控制器目录*/
+    |      |  --HomeController.java
+    |      |--Application.java  /*程序入口*/
+    |--resources
+       |--templates     /*模板目录*/
+          |--home.html
+--pom.xml
+</code></pre><p>其中，<code>HomeController.java</code>内容如下</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> com.scottqian.controllers<span style=color:#f92672>;</span>
+
+<span style=color:#f92672>import</span> org.springframework.stereotype.Controller<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> org.springframework.ui.Model<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> org.springframework.web.bind.annotation.RequestMapping<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> org.springframework.web.bind.annotation.RequestParam<span style=color:#f92672>;</span>
+
+<span style=color:#a6e22e>@Controller</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>HomeController</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#a6e22e>@RequestMapping</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/&#34;</span><span style=color:#f92672>)</span>
+    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>Home</span><span style=color:#f92672>(</span><span style=color:#a6e22e>@RequestParam</span><span style=color:#f92672>(</span>value<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>,</span> required<span style=color:#f92672>=</span><span style=color:#66d9ef>false</span><span style=color:#f92672>,</span> defaultValue<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;World&#34;</span><span style=color:#f92672>)</span> String name<span style=color:#f92672>,</span> Model model<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        model<span style=color:#f92672>.</span><span style=color:#a6e22e>addAttribute</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>,</span> name<span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;home&#34;</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>本身结构就比较清晰了，对 MVC 有点了解的从字面上看都应该知道它的意思了（先抛开@Controller 这种注解不谈）。唯一可能疑惑的地方是<code>Home</code>方法的返回值，这里返回的是一个字符串。这个字符串代表了视图的名字，在 SpringMVC 2.x 时代还可以返回<code>ModelAndView</code>，然后在<code>ModelAndView</code>里面设置<code>View</code>和<code>Model</code>，其实效果都一样。</p><p><code>Application.java</code>内容如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> com.scottqian<span style=color:#f92672>;</span>
+
+<span style=color:#f92672>import</span> org.springframework.boot.SpringApplication<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> org.springframework.boot.autoconfigure.SpringBootApplication<span style=color:#f92672>;</span>
+
+<span style=color:#a6e22e>@SpringBootApplication</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Application</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        SpringApplication<span style=color:#f92672>.</span><span style=color:#a6e22e>run</span><span style=color:#f92672>(</span>Application<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>,</span> args<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+
+<span style=color:#f92672>}</span>
+</code></pre></div><p>这个是程序的入口点，可以看到他是一个标准的 Java main 入口程序。得益于<a href=http://projects.spring.io/spring-boot/>Spring Boot</a>项目，我们可以以如此优雅的方式启动 Spring MVC 程序。简单列举一下这样做的直观好处：</p><ol><li>丢弃大段配置文件</li><li>内嵌 Web 服务器，就地运行（忘记 WAR 文件吧），配合<code>spring-boot-maven-plugin</code>的<code>mvn spring-boot:run</code>直接从命令行启动程序</li></ol><p><code>home.html</code>内容如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=color:#75715e>&lt;!DOCTYPE HTML&gt;</span>
+&lt;<span style=color:#f92672>html</span> <span style=color:#a6e22e>xmlns:th</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;http://www.thymeleaf.org&#34;</span>&gt;
+&lt;<span style=color:#f92672>head</span>&gt;
+    &lt;<span style=color:#f92672>title</span>&gt;Hello from Spring MVC&lt;/<span style=color:#f92672>title</span>&gt;
+    &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>http-equiv</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Content-Type&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/html; charset=UTF-8&#34;</span> /&gt;
+&lt;/<span style=color:#f92672>head</span>&gt;
+&lt;<span style=color:#f92672>body</span>&gt;
+    &lt;<span style=color:#f92672>p</span> <span style=color:#a6e22e>th:text</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#39;Hello, &#39; + ${name} + &#39;!&#39;&#34;</span> /&gt;
+&lt;/<span style=color:#f92672>body</span>&gt;
+&lt;/<span style=color:#f92672>html</span>&gt;
+</code></pre></div><p>模板，没什么好说的了。</p><p><code>pom.xml</code>内容如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style=color:#f92672>&lt;project</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style=color:#a6e22e>xmlns:xsi=</span><span style=color:#e6db74>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+    <span style=color:#a6e22e>xsi:schemaLocation=</span><span style=color:#e6db74>&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span style=color:#f92672>&gt;</span>
+    <span style=color:#f92672>&lt;modelVersion&gt;</span>4.0.0<span style=color:#f92672>&lt;/modelVersion&gt;</span>
+
+    <span style=color:#f92672>&lt;groupId&gt;</span>com.scottqian<span style=color:#f92672>&lt;/groupId&gt;</span>
+    <span style=color:#f92672>&lt;artifactId&gt;</span>JPanther<span style=color:#f92672>&lt;/artifactId&gt;</span>
+    <span style=color:#f92672>&lt;version&gt;</span>0.1.0<span style=color:#f92672>&lt;/version&gt;</span>
+
+    <span style=color:#75715e>&lt;!-- 继承spring-boot-starter-parent，这里面做了很多默认的配置--&gt;</span>
+    <span style=color:#f92672>&lt;parent&gt;</span>
+        <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+        <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-starter-parent<span style=color:#f92672>&lt;/artifactId&gt;</span>
+        <span style=color:#f92672>&lt;version&gt;</span>1.2.3.RELEASE<span style=color:#f92672>&lt;/version&gt;</span>
+    <span style=color:#f92672>&lt;/parent&gt;</span>
+
+    <span style=color:#f92672>&lt;dependencies&gt;</span>
+        <span style=color:#f92672>&lt;dependency&gt;</span>
+            <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+            <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-starter-thymeleaf<span style=color:#f92672>&lt;/artifactId&gt;</span>
+        <span style=color:#f92672>&lt;/dependency&gt;</span>
+    <span style=color:#f92672>&lt;/dependencies&gt;</span>
+
+    <span style=color:#f92672>&lt;properties&gt;</span>
+        <span style=color:#f92672>&lt;java.version&gt;</span>1.7<span style=color:#f92672>&lt;/java.version&gt;</span>
+    <span style=color:#f92672>&lt;/properties&gt;</span>
+
+    <span style=color:#f92672>&lt;build&gt;</span>
+        <span style=color:#f92672>&lt;plugins&gt;</span>
+            <span style=color:#f92672>&lt;plugin&gt;</span>
+                <span style=color:#75715e>&lt;!-- 为了直接使用 mvn spring-boot:run 启动网站--&gt;</span>
+                <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+                <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+            <span style=color:#f92672>&lt;/plugin&gt;</span>
+        <span style=color:#f92672>&lt;/plugins&gt;</span>
+    <span style=color:#f92672>&lt;/build&gt;</span>
+
+    <span style=color:#f92672>&lt;repositories&gt;</span>
+        <span style=color:#f92672>&lt;repository&gt;</span>
+            <span style=color:#f92672>&lt;id&gt;</span>spring-milestone<span style=color:#f92672>&lt;/id&gt;</span>
+            <span style=color:#f92672>&lt;url&gt;</span>https://repo.spring.io/libs-release<span style=color:#f92672>&lt;/url&gt;</span>
+        <span style=color:#f92672>&lt;/repository&gt;</span>
+    <span style=color:#f92672>&lt;/repositories&gt;</span>
+
+    <span style=color:#f92672>&lt;pluginRepositories&gt;</span>
+        <span style=color:#f92672>&lt;pluginRepository&gt;</span>
+            <span style=color:#f92672>&lt;id&gt;</span>spring-milestone<span style=color:#f92672>&lt;/id&gt;</span>
+            <span style=color:#f92672>&lt;url&gt;</span>https://repo.spring.io/libs-release<span style=color:#f92672>&lt;/url&gt;</span>
+        <span style=color:#f92672>&lt;/pluginRepository&gt;</span>
+    <span style=color:#f92672>&lt;/pluginRepositories&gt;</span>
+
+<span style=color:#f92672>&lt;/project&gt;</span>
+</code></pre></div><p>#运行项目
+有了 maven plugin，运行项目真是再简单不过了。直接如下命令搞定：</p><pre><code>mvn spring-boot:run
+</code></pre><p>如果没什么意外，打开 localhost:8080 就可以看到效果了。So Easy~</p></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

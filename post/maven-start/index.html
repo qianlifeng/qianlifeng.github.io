@@ -1,0 +1,98 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/maven-start/"><link rel=canonical href=https://blog.qlf.io/post/maven-start/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"使用Maven构建项目","headline":"使用Maven构建项目","description":"自动化构建，从 Maven 开始~\n先看官方定义，Maven 被定义为一套可用于管理项目的构建，报告和文档的工具。使用自动构建工具有利于项目的 部署，测试等，让开发人员从繁琐的编译发布中解脱出来。\nApache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project\u0027s build, reporting and documentation from a central piece of information. 建立项目 本着约定甚于配置的原则，Maven 有一套默认的约定项目结构。作为例子，这里创建如下目录结构：\n--src --main --java --hello 在 hello 目录下面，建立两个文件。分别为 HelloWorld.java 和 Greeter.java\npackage hello; public class HelloWorld { public static void main(String[] args) { Greeter greeter = new Greeter(); System.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2015","datePublished":"2015-05-28 15:43:00 \u002b0000 UTC","dateModified":"2015-05-28 15:43:00 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/maven-start\/","keywords":[]}</script><title>使用Maven构建项目 - 钱李峰的博客</title><meta property="og:title" content="使用Maven构建项目 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="自动化构建，从 Maven 开始~
+先看官方定义，Maven 被定义为一套可用于管理项目的构建，报告和文档的工具。使用自动构建工具有利于项目的 部署，测试等，让开发人员从繁琐的编译发布中解脱出来。
+Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information. 建立项目 本着约定甚于配置的原则，Maven 有一套默认的约定项目结构。作为例子，这里创建如下目录结构：
+--src --main --java --hello 在 hello 目录下面，建立两个文件。分别为 HelloWorld.java 和 Greeter.java
+package hello; public class HelloWorld { public static void main(String[] args) { Greeter greeter = new Greeter(); System."><meta name=description content="自动化构建，从 Maven 开始~
+先看官方定义，Maven 被定义为一套可用于管理项目的构建，报告和文档的工具。使用自动构建工具有利于项目的 部署，测试等，让开发人员从繁琐的编译发布中解脱出来。
+Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information. 建立项目 本着约定甚于配置的原则，Maven 有一套默认的约定项目结构。作为例子，这里创建如下目录结构：
+--src --main --java --hello 在 hello 目录下面，建立两个文件。分别为 HelloWorld.java 和 Greeter.java
+package hello; public class HelloWorld { public static void main(String[] args) { Greeter greeter = new Greeter(); System."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>使用Maven构建项目</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2015-05-28 15:43:00 UTC">28 May 2015</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>自动化构建，从 Maven 开始~</p><p>先看官方定义，Maven 被定义为一套可用于管理项目的构建，报告和文档的工具。使用自动构建工具有利于项目的
+部署，测试等，让开发人员从繁琐的编译发布中解脱出来。</p><pre><code>Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+</code></pre><h1 id=建立项目>建立项目</h1><p>本着约定甚于配置的原则，Maven 有一套默认的约定项目结构。作为例子，这里创建如下目录结构：</p><pre><code>--src
+  --main
+    --java
+      --hello
+</code></pre><p>在 hello 目录下面，建立两个文件。分别为 HelloWorld.java 和 Greeter.java</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> hello<span style=color:#f92672>;</span>
+
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>HelloWorld</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Greeter greeter <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Greeter<span style=color:#f92672>();</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span>greeter<span style=color:#f92672>.</span><span style=color:#a6e22e>sayHello</span><span style=color:#f92672>());</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> hello<span style=color:#f92672>;</span>
+
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Greeter</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>sayHello</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Hello world!&#34;</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h1 id=安装-maven>安装 Maven</h1><p>安装这部分其实没什么可说的，就是从<a href=https://maven.apache.org/download.cgi>Maven 官网</a>下载最新的版本，解压到一个地方后，
+将此位置加入到系统环境变量里面就可以了。加完了以后，在命令行输入如下命令验证一下即可。</p><pre><code>mvn -v
+</code></pre><h1 id=定义-maven-构建信息>定义 Maven 构建信息</h1><p>安装 Maven 完成之后你需要在项目的根目录下面定义一个 pom.xml 的文件，此文件里面包含了所有构建这个项目所需要的信息。这里是一个例子：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style=color:#f92672>&lt;project</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style=color:#a6e22e>xmlns:xsi=</span><span style=color:#e6db74>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+    <span style=color:#a6e22e>xsi:schemaLocation=</span><span style=color:#e6db74>&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&#34;</span><span style=color:#f92672>&gt;</span>
+    <span style=color:#f92672>&lt;modelVersion&gt;</span>4.0.0<span style=color:#f92672>&lt;/modelVersion&gt;</span>
+    <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework<span style=color:#f92672>&lt;/groupId&gt;</span>
+    <span style=color:#f92672>&lt;artifactId&gt;</span>gs-maven<span style=color:#f92672>&lt;/artifactId&gt;</span>
+    <span style=color:#f92672>&lt;packaging&gt;</span>jar<span style=color:#f92672>&lt;/packaging&gt;</span>
+    <span style=color:#f92672>&lt;version&gt;</span>0.1.0<span style=color:#f92672>&lt;/version&gt;</span>
+
+    <span style=color:#f92672>&lt;build&gt;</span>
+        <span style=color:#f92672>&lt;plugins&gt;</span>
+            <span style=color:#f92672>&lt;plugin&gt;</span>
+                <span style=color:#f92672>&lt;groupId&gt;</span>org.apache.maven.plugins<span style=color:#f92672>&lt;/groupId&gt;</span>
+                <span style=color:#f92672>&lt;artifactId&gt;</span>maven-shade-plugin<span style=color:#f92672>&lt;/artifactId&gt;</span>
+                <span style=color:#f92672>&lt;version&gt;</span>2.1<span style=color:#f92672>&lt;/version&gt;</span>
+                <span style=color:#f92672>&lt;executions&gt;</span>
+                    <span style=color:#f92672>&lt;execution&gt;</span>
+                        <span style=color:#f92672>&lt;phase&gt;</span>package<span style=color:#f92672>&lt;/phase&gt;</span>
+                        <span style=color:#f92672>&lt;goals&gt;</span>
+                            <span style=color:#f92672>&lt;goal&gt;</span>shade<span style=color:#f92672>&lt;/goal&gt;</span>
+                        <span style=color:#f92672>&lt;/goals&gt;</span>
+                        <span style=color:#f92672>&lt;configuration&gt;</span>
+                            <span style=color:#f92672>&lt;transformers&gt;</span>
+                                <span style=color:#f92672>&lt;transformer</span>
+                                    <span style=color:#a6e22e>implementation=</span><span style=color:#e6db74>&#34;org.apache.maven.plugins.shade.resource.ManifestResourceTransformer&#34;</span><span style=color:#f92672>&gt;</span>
+                                    <span style=color:#f92672>&lt;mainClass&gt;</span>hello.HelloWorld<span style=color:#f92672>&lt;/mainClass&gt;</span>
+                                <span style=color:#f92672>&lt;/transformer&gt;</span>
+                            <span style=color:#f92672>&lt;/transformers&gt;</span>
+                        <span style=color:#f92672>&lt;/configuration&gt;</span>
+                    <span style=color:#f92672>&lt;/execution&gt;</span>
+                <span style=color:#f92672>&lt;/executions&gt;</span>
+            <span style=color:#f92672>&lt;/plugin&gt;</span>
+        <span style=color:#f92672>&lt;/plugins&gt;</span>
+    <span style=color:#f92672>&lt;/build&gt;</span>
+<span style=color:#f92672>&lt;/project&gt;</span>
+</code></pre></div><ul><li><code>&lt;modelVersion></code> POM 的版本信息，基本都是 4.4.0 不变</li><li><code>&lt;groupId></code> 项目所属组织的 Id，一般都是类似<code>com.domain.xxx</code>的域名倒写</li><li><code>&lt;artifactId></code> 此项目的 Id</li><li><code>&lt;version></code> 项目版本号，推荐<a href=http://semver.org>Semantic Version</a></li><li><code>&lt;packaging></code> 项目打包类型</li></ul><h1 id=编译项目>编译项目</h1><p>上面把项目结构和 Maven 都弄好了，下面就是编译了。在项目根目录打开命令行，并执行如下命令：</p><pre><code>mvn compile
+</code></pre><p>如果不出意外，你应该会看到如下的输出信息</p><pre><code>[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building gs-maven 0.1.0
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ gs-maven -
+--
+[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e
+. build is platform dependent!
+[INFO] skip non existing resourceDirectory d:\github\java\maven_hello_world\src\
+main\resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ gs-maven ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.674 s
+[INFO] Finished at: 2015-05-28T15:40:29+08:00
+[INFO] Final Memory: 11M/308M
+[INFO] ------------------------------------------------------------------------
+</code></pre><h1 id=依赖包>依赖包</h1><p>一个稍微复杂点的项目或多或少会用到第三方的库，如果使用 Maven 来管理这些依赖?<br>这里以 Spring 为例，只需要在 pom.xml 的<code>&lt;dependencies></code>声明依赖即可：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#f92672>&lt;dependencies&gt;</span>
+    <span style=color:#f92672>&lt;dependency&gt;</span>
+        <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework<span style=color:#f92672>&lt;/groupId&gt;</span>
+        <span style=color:#f92672>&lt;artifactId&gt;</span>spring-context<span style=color:#f92672>&lt;/artifactId&gt;</span>
+        <span style=color:#f92672>&lt;version&gt;</span>4.1.6.RELEASE<span style=color:#f92672>&lt;/version&gt;</span>
+    <span style=color:#f92672>&lt;/dependency&gt;</span>
+<span style=color:#f92672>&lt;/dependencies&gt;</span>
+</code></pre></div><p>下次你再使用<code>mvn compile</code>的时候，Maven 会自动帮你下载这些依赖库。</p></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>

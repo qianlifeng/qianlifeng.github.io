@@ -1,0 +1,55 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=generator content="Hugo 0.79.1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content><meta property="og:url" content="https://blog.qlf.io/post/back-to-top-chrome-extension/"><link rel=canonical href=https://blog.qlf.io/post/back-to-top-chrome-extension/><link rel=preload href=/js/highlight.pack.js as=script><link rel=alternate type=application/atom+xml href=https://blog.qlf.ioindex.xml title=钱李峰的博客><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.qlf.io"},"articleSection":"post","name":"在chrome中利用“油猴”为每个网页增加“返回顶部”功能","headline":"在chrome中利用“油猴”为每个网页增加“返回顶部”功能","description":"今天在网上看到了“油猴”这么个东西的介绍，感觉蛮有趣，跟大家分享一下。\n这个东西本来是火狐的插件，后来一查原来 chrome 从 4.0 以后也支持用户脚本了。所谓的“油猴”实际上是一段以*.user.js 结尾的 js 脚本，通过油猴你可以在每个网页上执行你的这段脚本。 利用这个 js 脚本你可以对网站页面做一些个性化的修改，比如像我们今天提到在每个页面上增加“返回顶部”的功能，其效果就是在每个页面自动添加返回顶部的功能： 创建“油猴”脚本 下面介绍一下如何在 chrome 中编写自己的用户脚本（以增加返回顶部功能为例）\n  去谷歌扩展中心下载 Tampermonkey ,这个东西可以用来管理各种用户脚本。\n  安装后进入 Tampermonkey 的设置界面，然后创建一个新的脚本： 在编辑脚本页面输入下面的一段 js 脚本（用于实现“返回顶部”功能）\n\/\/ ==UserScript== \/\/ @name GotoTop \/\/ @version 0.1 \/\/ @description 给每个网页增加返回顶部按钮 \/\/ @match http:\/\/* \/\/ @match https:\/\/* \/\/ @copyright scott qian \/\/ @require http:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.6\/jquery.min.js \/\/ ==\/UserScript== ImportCss(); ScriptWithJquery(); BindHotKey(); function ImportCss() { var jqueryScriptBlock = document.createElement(\u0027style\u0027); jqueryScriptBlock.type = \u0027text\/css\u0027; jqueryScriptBlock.innerHTML = \u0026quot;#gototop{position:fixed;bottom:20%;right:1px;border:1px solid gray;padding:3px;width:12px;font-size:12px;cursor:pointer;border-radius: 3px;text-shadow: 1px 1px 3px #676767;}\u0026quot;; document.","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2012","datePublished":"2012-03-08 13:46:00 \u002b0000 UTC","dateModified":"2012-03-08 13:46:00 \u002b0000 UTC","url":"https:\/\/blog.qlf.io\/post\/back-to-top-chrome-extension\/","keywords":[]}</script><title>在chrome中利用“油猴”为每个网页增加“返回顶部”功能 - 钱李峰的博客</title><meta property="og:title" content="在chrome中利用“油猴”为每个网页增加“返回顶部”功能 - 钱李峰的博客"><meta property="og:type" content="article"><meta property="og:description" content="今天在网上看到了“油猴”这么个东西的介绍，感觉蛮有趣，跟大家分享一下。
+这个东西本来是火狐的插件，后来一查原来 chrome 从 4.0 以后也支持用户脚本了。所谓的“油猴”实际上是一段以*.user.js 结尾的 js 脚本，通过油猴你可以在每个网页上执行你的这段脚本。 利用这个 js 脚本你可以对网站页面做一些个性化的修改，比如像我们今天提到在每个页面上增加“返回顶部”的功能，其效果就是在每个页面自动添加返回顶部的功能： 创建“油猴”脚本 下面介绍一下如何在 chrome 中编写自己的用户脚本（以增加返回顶部功能为例）
+  去谷歌扩展中心下载 Tampermonkey ,这个东西可以用来管理各种用户脚本。
+  安装后进入 Tampermonkey 的设置界面，然后创建一个新的脚本： 在编辑脚本页面输入下面的一段 js 脚本（用于实现“返回顶部”功能）
+// ==UserScript== // @name GotoTop // @version 0.1 // @description 给每个网页增加返回顶部按钮 // @match http://* // @match https://* // @copyright scott qian // @require http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js // ==/UserScript== ImportCss(); ScriptWithJquery(); BindHotKey(); function ImportCss() { var jqueryScriptBlock = document.createElement('style'); jqueryScriptBlock.type = 'text/css'; jqueryScriptBlock.innerHTML = &#34;#gototop{position:fixed;bottom:20%;right:1px;border:1px solid gray;padding:3px;width:12px;font-size:12px;cursor:pointer;border-radius: 3px;text-shadow: 1px 1px 3px #676767;}&#34;; document."><meta name=description content="今天在网上看到了“油猴”这么个东西的介绍，感觉蛮有趣，跟大家分享一下。
+这个东西本来是火狐的插件，后来一查原来 chrome 从 4.0 以后也支持用户脚本了。所谓的“油猴”实际上是一段以*.user.js 结尾的 js 脚本，通过油猴你可以在每个网页上执行你的这段脚本。 利用这个 js 脚本你可以对网站页面做一些个性化的修改，比如像我们今天提到在每个页面上增加“返回顶部”的功能，其效果就是在每个页面自动添加返回顶部的功能： 创建“油猴”脚本 下面介绍一下如何在 chrome 中编写自己的用户脚本（以增加返回顶部功能为例）
+  去谷歌扩展中心下载 Tampermonkey ,这个东西可以用来管理各种用户脚本。
+  安装后进入 Tampermonkey 的设置界面，然后创建一个新的脚本： 在编辑脚本页面输入下面的一段 js 脚本（用于实现“返回顶部”功能）
+// ==UserScript== // @name GotoTop // @version 0.1 // @description 给每个网页增加返回顶部按钮 // @match http://* // @match https://* // @copyright scott qian // @require http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js // ==/UserScript== ImportCss(); ScriptWithJquery(); BindHotKey(); function ImportCss() { var jqueryScriptBlock = document.createElement('style'); jqueryScriptBlock.type = 'text/css'; jqueryScriptBlock.innerHTML = &#34;#gototop{position:fixed;bottom:20%;right:1px;border:1px solid gray;padding:3px;width:12px;font-size:12px;cursor:pointer;border-radius: 3px;text-shadow: 1px 1px 3px #676767;}&#34;; document."><meta property="og:locale" content><link rel=stylesheet href=/css/flexboxgrid-6.3.1.min.css><link rel=stylesheet href=/css/github-markdown.css><link rel=stylesheet href=/css/highlight/tomorrow.min.css><link rel=stylesheet href=/css/index.css><link href=/index.xml rel=alternate type=application/rss+xml title=钱李峰的博客><link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker|Bree+Serif" rel=stylesheet></head><body><article class=post id=article><div class=row><div class=col-xs-12><div class=site-header><header><div class="signatures site-title"><a href=/>Scott Qian</a></div></header><div class="row end-xs"></div><div class=header-line></div></div><header class=post-header><h1 class=post-title>在chrome中利用“油猴”为每个网页增加“返回顶部”功能</h1><div class="row post-desc"><div class=col-xs-6><time class=post-date datetime="2012-03-08 13:46:00 UTC">08 Mar 2012</time></div><div class=col-xs-6></div></div></header><div class="post-content markdown-body"><p>今天在网上看到了“油猴”这么个东西的介绍，感觉蛮有趣，跟大家分享一下。</p><p>这个东西本来是火狐的插件，后来一查原来 chrome 从 4.0 以后也支持用户脚本了。所谓的“油猴”实际上是一段以*.user.js 结尾的 js 脚本，通过油猴你可以在每个网页上执行你的这段脚本。
+利用这个 js 脚本你可以对网站页面做一些个性化的修改，比如像我们今天提到在每个页面上增加“返回顶部”的功能，其效果就是在每个页面自动添加返回顶部的功能：</p><h1 id=创建油猴脚本>创建“油猴”脚本</h1><p>下面介绍一下如何在 chrome 中编写自己的用户脚本（以增加返回顶部功能为例）</p><ol><li><p>去谷歌扩展中心下载 Tampermonkey ,这个东西可以用来管理各种用户脚本。</p></li><li><p>安装后进入 Tampermonkey 的设置界面，然后创建一个新的脚本：<br>在编辑脚本页面输入下面的一段 js 脚本（用于实现“返回顶部”功能）</p><pre><code>// ==UserScript==
+// @name GotoTop
+// @version 0.1
+// @description 给每个网页增加返回顶部按钮
+// @match http://*
+// @match https://*
+// @copyright scott qian
+// @require http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js
+// ==/UserScript==
+
+ImportCss();
+ScriptWithJquery();
+BindHotKey();
+
+function ImportCss() {
+    var jqueryScriptBlock = document.createElement('style');
+    jqueryScriptBlock.type = 'text/css';
+    jqueryScriptBlock.innerHTML = &quot;#gototop{position:fixed;bottom:20%;right:1px;border:1px solid gray;padding:3px;width:12px;font-size:12px;cursor:pointer;border-radius: 3px;text-shadow: 1px 1px 3px #676767;}&quot;;
+    document.getElementsByTagName('head')[0].appendChild(jqueryScriptBlock);
+}
+</code></pre><p>function ScriptWithJquery() {
+$(document.body).append(" 返 回 顶 部 ");
+$('#gototop').click(function () { $(&lsquo;html,body&rsquo;).animate({ scrollTop: &lsquo;0px&rsquo; }, 800); return false; });
+}</p><p>function BindHotKey(){
+document.onkeydown = function(){
+var a = window.event.keyCode;
+if((a == 38)&&(event.altKey))
+{
+//alt + up
+$(&lsquo;html,body&rsquo;).animate({ scrollTop: &lsquo;0px&rsquo; }, 800);
+}
+};</p><pre><code> //绑定alt+鼠标向上滚轮事件
+ window.addEventListener('mousewheel', function(event){
+     if(event.wheelDelta &gt; 0 &amp;&amp; event.altKey)
+     {
+         $('html,body').animate({ scrollTop: '0px' }, 800);
+         //防止滚动条向上滚动，导致多重效果
+         window.event.preventDefault();
+     }
+ }, false);
+</code></pre><p>}</p><pre><code>&lt;img src=&quot;/Images/back-to-top-chrome-extension/3.png&quot;/&gt;
+
+这里有一个地方需要说明一下。为了方便js的开发，我这里使用了jquery，所以需要在头部声明中声明以下一段话。这样我们就可以在其中使用jquery了。
+</code></pre><p>// @require <a href=http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js>http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js</a></p><pre><code>
+</code></pre></li><li><p>保存该用户脚本然后随便打开一个网页，效果如下：</p></li></ol><h1 id=调试用户脚本>调试用户脚本</h1><p>如果需要调试我们写的脚本，可以在 Tempermonkey 的设置界面开启 Debug Scripts 功能。然后在打开页面的时候按 F12 开启 developer tools，就会自动进入调试模式了。如下图所示：<br></p></div><div class="row middle-xs"><div class=col-xs-12></div></div><div class=row><div class=col-xs-12></div></div><div style=height:50px></div><div class=post-comments><div id=disqus_thread></div><script>window.addEventListener("load",()=>{(function(){var d=document,s=d.createElement("script");s.src="https://scottqian.disqus.com/embed.js";s.setAttribute("data-timestamp",+new Date());(d.head||d.body).appendChild(s);})();});</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript></div><div class=site-footer><div class=site-footer-item><a href=https://github.com/qianlifeng target=_blank>Github</a></div></div></div></div></article><script src=/js/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>
